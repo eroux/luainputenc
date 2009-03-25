@@ -2,7 +2,8 @@
 %
 % Copyright (C) 2009 by Elie Roux <elie.roux@telecom-bretagne.eu>
 %
-% This work is in the Public Domain.
+% This work is under the CC0 license. As an exception, the file luainputenc.sty
+% has more restrictions. See the file for more details.
 %
 % People who helped on this package:
 %   Javier Bezos
@@ -43,7 +44,8 @@ This is a generated file.
 
 Copyright (C) 2009 by Elie Roux <elie.roux@telecom-bretagne.eu>
 
-This work is in the Public Domain.
+This work is under the CC0 license. As an exception, the file luainputenc.sty
+has more restrictions. See the file for more details.
 
 People who helped on this package:
   Javier Bezos
@@ -185,28 +187,20 @@ and the derived files
    \ifnum\@tempcnta<`#2\relax
       \advance\@tempcnta\@ne
    \repeat}
--\DeclareOption*{\inputencoding{\CurrentOption}}
-+  
-+\RequirePackage{ifluatex}
 +
-+\ifluatex
-+
-+\RequirePackage{luainputenc}
-+
-+\DeclareOption{utf8}{
-+  \edef\inputencodingname{utf8}}
-+\DeclareOption{utf8x}{
-+  \edef\inputencodingname{utf8x}}
-+\DeclareOption*{
-+  \lIE@activate 
-+  \inputencoding{\CurrentOption}}
-+
-+\else
-+
-+\DeclareOption*{
-+\inputencoding{\CurrentOption}
-+}
-+
++\begingroup\expandafter\expandafter\expandafter\endgroup   
++\expandafter\ifx\csname XeTeXversion\endcsname\relax\else
++  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{xetex-inputenc}}
++  \ProcessOptions
++  \RequirePackage{xetex-inputenc}
++  \expandafter\endinput
++\fi
++\begingroup\expandafter\expandafter\expandafter\endgroup   
++\expandafter\ifx\csname directlua\endcsname\relax\else
++  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{luainputenc}}
++  \ProcessOptions
++  \RequirePackage{luainputenc}
++  \expandafter\endinput
 +\fi
 +
  \ProcessOptions
@@ -230,12 +224,27 @@ and the derived files
 % \fi
 %
 %    \begin{macrocode}
+%
+%% This file was adapted from inputenc.sty, which copyright is:
+%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
+%% The LaTeX3 Project.
+%%
+%% inputenc.sty is under the lppl version 1.3c or later, and can be found in the
+%% base LaTeX system.
+%%
+%% The lppl can be found at http://www.latex-project.org/lppl.txt
+%%
+%% The changes to inputenc.sty are Copyright 2009 Elie Roux, and are under the
+%% CC0 license.
+%%
+%% The changes are LuaTeX support.
+%%
+%% This file is distributed under the CC0 license, with clause 6 of the lppl as
+%% additional restrictions.
 
-\@ifpackageloaded{luatextra}{}{\RequirePackage{luatextra}}
+\RequirePackage{luatextra}
 
 \luaUseModule{luainputenc}
-
-
 
 \def\DeclareInputMath#1{%
    \@inpenc@test
@@ -305,25 +314,26 @@ and the derived files
      \advance\@tempcnta\@ne
   \repeat}
   
-\RequirePackage{ifluatex}
-
 \ifluatex
 
-\RequirePackage{luainputenc}
+\DeclareOption{utf8}{%
+  \inputencoding{lutf8}%
+}
 
-\DeclareOption{utf8}{
-  \inputencoding{lutf8}}
-\DeclareOption{utf8x}{
-  \inputencoding{lutf8}}
-\DeclareOption*{
-  \lIE@activate 
-  \@inpenc@loop\^^?\^^ff
-  \inputencoding{\CurrentOption}}
+\DeclareOption{utf8x}{%
+  \inputencoding{lutf8}%
+}
+
+\DeclareOption*{%
+  \lIE@activate %
+  \@inpenc@loop\^^?\^^ff%
+  \inputencoding{\CurrentOption}%
+}
 
 \else
 
-\DeclareOption*{
-\inputencoding{\CurrentOption}
+\DeclareOption*{%
+  \inputencoding{\CurrentOption}%
 }
 
 \fi
@@ -334,16 +344,16 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\newcommand*\lIE@setstarted[0]{
-\ifnum\lIE@activated=1
-  \luadirect{luainputenc.setstarted()}
-\fi
+\newcommand*\lIE@setstarted[0]{%
+  \ifnum\lIE@activated=1 %
+    \luadirect{luainputenc.setstarted()}%
+  \fi %
 }
 
-\newcommand*\lIE@setstopped[0]{
-\ifnum\lIE@activated=1
-  \luadirect{luainputenc.setstopped()}
-\fi
+\newcommand*\lIE@setstopped[0]{%
+  \ifnum\lIE@activated=1 %
+    \luadirect{luainputenc.setstopped()}%
+  \fi %
 }
 
 %    \end{macrocode}
@@ -356,8 +366,8 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\newcommand*\lIE@SetUtfFile[1]{
-\luadirect{luainputenc.set_unicode_file([[#1]])}
+\newcommand*\lIE@SetUtfFile[1]{%
+  \luadirect{luainputenc.set_unicode_file([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -370,8 +380,8 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\newcommand*\lIE@SetNonUtfFile[1]{
-\luadirect{luainputenc.set_non_unicode_file([[#1]])}
+\newcommand*\lIE@SetNonUtfFile[1]{%
+  \luadirect{luainputenc.set_non_unicode_file([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -384,8 +394,8 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\newcommand*\lIE@UnsetFile[1]{
-\luadirect{luainputenc.unset_file([[#1]])}
+\newcommand*\lIE@UnsetFile[1]{%
+  \luadirect{luainputenc.unset_file([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -398,8 +408,8 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\newcommand*\lIE@SetUtfExt[1]{
-\luadirect{luainputenc.set_unicode_extention([[#1]])}
+\newcommand*\lIE@SetUtfExt[1]{%
+  \luadirect{luainputenc.set_unicode_extention([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -413,7 +423,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetNonUtfExt[1]{
-\luadirect{luainputenc.set_non_unicode_extention([[#1]])}
+  \luadirect{luainputenc.set_non_unicode_extention([[#1]])}
 }
 
 %    \end{macrocode}
@@ -427,10 +437,10 @@ and the derived files
 %    \begin{macrocode}
 
 
-\newcommand*\lIE@InputUtfFile[1]{
-\lIE@SetUtfFile{#1}
-\input #1
-\lIE@UnsetFile{#1}
+\newcommand*\lIE@InputUtfFile[1]{%
+  \lIE@SetUtfFile{#1}%
+  \input #1%
+  \lIE@UnsetFile{#1}%
 }
 
 %    \end{macrocode}
@@ -443,10 +453,10 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\newcommand*\lIE@InputNonUtfFile[1]{
-\lIE@SetNonUtfFile{#1}
-\input #1
-\lIE@UnsetFile{#1}
+\newcommand*\lIE@InputNonUtfFile[1]{%
+  \lIE@SetNonUtfFile{#1}%
+  \input #1%
+  \lIE@UnsetFile{#1}%
 }
 
 %    \end{macrocode}
@@ -457,25 +467,25 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\newcommand*\InputUtfFile[1]{
-\lIE@InputUtfFile{#1}
+\newcommand*\InputUtfFile[1]{%
+  \lIE@InputUtfFile{#1}%
 }
 
-\newcommand*\InputNonUtfFile[1]{
-\lIE@InputNonUtfFile{#1}
+\newcommand*\InputNonUtfFile[1]{%
+  \lIE@InputNonUtfFile{#1}%
 }
 
 \newcount\lIE@activated
 
-\newcommand*{\lIE@activate}[0]{
-\lIE@activated=1
-\lIE@setstarted
+\newcommand*{\lIE@activate}[0]{%
+  \lIE@activated=1 %
+  \lIE@setstarted %
 }
 
-\newcommand*{\lIE@FromInputenc}[1]{
-\ifnum\lIE@activated=0
-  \lIE@activate
-\fi
+\newcommand*{\lIE@FromInputenc}[1]{%
+  \ifnum\lIE@activated=0 %
+    \lIE@activate %
+  \fi%
 }
 
 \ProcessOptions*
