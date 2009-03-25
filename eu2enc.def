@@ -1,0 +1,5 @@
+\ProvidesFile{eu2enc.def}[2009/03/23 v0.1 a Experimental unicode font encoding for LuaTeX.]
+\DeclareFontEncoding{EU2}{}{}
+\DeclareErrorFont{EU2}{cmr}{m}{n}{10}
+\DeclareFontSubstitution{EU2}{cmr}{m}{n}
+
