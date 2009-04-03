@@ -68,6 +68,9 @@ and the derived files
   \usedir{tex/lualatex/luainputenc}%
   \file{luainputenc.sty}{\from{luainputenc.dtx}{package}}%
   \file{lutf8.def}{\from{luainputenc.dtx}{def}}%
+  \file{lutf8x.def}{\from{luainputenc.dtx}{defx}}%
+  \file{eu2enc.def}{\from{luainputenc.dtx}{eu2}}%
+  \file{eu2lmr.fd}{\from{luainputenc.dtx}{lmr}}%
 }
 
 % The following hacks are to generate a lua file with lua comments starting by -- instead of %%
@@ -522,7 +525,7 @@ and the derived files
 
 \ProvidesFile{lutf8.def}
    [2009/03/20 v0.9 UTF-8 support for luainputenc]
-   
+
 \makeatletter
 \catcode`\ \saved@space@catcode
 
@@ -531,7 +534,7 @@ and the derived files
 \ifx\@begindocumenthook\@undefined
   \makeatother
   \endinput \fi
-  
+
 \gdef\DeclareUnicodeCharacter#1#2{%
  \@tempcnta"#1%
  \luadirect{luainputenc.declare_character('\the\@tempcnta')}%
@@ -560,20 +563,147 @@ and the derived files
 \luadirect{luainputenc.desactivate_characters()}%
 }
 
+\def\lIE@CharactersActivated{%
+\luadirect{luainputenc.force_characters_activated()}
+}
+
+\def\cdp@elt#1#2#3#4{%
+  \wlog{Now handling font encoding #1 ...}%
+  \lowercase{%
+      \InputIfFileExists{#1enc.dfu}}%
+         {\wlog{... processing UTF-8 mapping file for font encoding
+                #1}%
+          \catcode`\ 9\relax}%
+        {\wlog{... no UTF-8 mapping file for font encoding #1}}%
+}
+\cdp@list
+
+\def\DeclareFontEncoding@#1#2#3{%
+  \expandafter %
+  \ifx\csname T@#1\endcsname\relax %
+    \def\cdp@elt{\noexpand\cdp@elt}%
+    \xdef\cdp@list{\cdp@list\cdp@elt{#1}%
+                    {\default@family}{\default@series}%
+                    {\default@shape}}%
+    \expandafter\let\csname#1-cmd\endcsname\@changed@cmd %
+    \begingroup %
+      \wlog{Now handling font encoding #1 ...}%
+      \lowercase{%
+        \InputIfFileExists{#1enc.dfu}}%
+           {\wlog{... processing UTF-8 mapping file for font encoding #1}}%
+           {\wlog{... no UTF-8 mapping file for font encoding #1}}%
+    \endgroup
+  \else
+     \@font@info{Redeclaring font encoding #1}%
+  \fi
+  \global\@namedef{T@#1}{#2}%
+  \global\@namedef{M@#1}{\default@M#3}%
+  \xdef\LastDeclaredEncoding{#1}%
+}
+
+\DeclareUnicodeCharacter{00A9}{\textcopyright}
+\DeclareUnicodeCharacter{00AA}{\textordfeminine}
+\DeclareUnicodeCharacter{00AE}{\textregistered}
+\DeclareUnicodeCharacter{00BA}{\textordmasculine}
+\DeclareUnicodeCharacter{02C6}{\textasciicircum}
+\DeclareUnicodeCharacter{02DC}{\textasciitilde}
+\DeclareUnicodeCharacter{200C}{\textcompwordmark}
+\DeclareUnicodeCharacter{2026}{\textellipsis}
+\DeclareUnicodeCharacter{2122}{\texttrademark}
+\DeclareUnicodeCharacter{2423}{\textvisiblespace}
+
+%    \end{macrocode}
+%
+% \iffalse
+%</def>
+% \fi
+%
+%
+% \iffalse
+%<*defx>
+% \fi
+%
+% \subsection{\texttt{lutf8x.def}}
+%    \begin{macrocode}
+%% This file was adapted from utf8.def, which copyright is:
+%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
+%% The LaTeX3 Project.
+%%
+%% utf8.def is under the lppl version 1.3c or later, and can be found in the
+%% base LaTeX system.
+%%
+%% The lppl can be found at http://www.latex-project.org/lppl.txt
+%%
+%% The changes to utf8.def are Copyright 2009 Elie Roux, and are under the
+%% CC0 license.
+%%
+%% The changes are LuaTeX support.
+%%
+%% This file is distributed under the CC0 license, with clause 6 of the lppl as
+%% additional restrictions.
+
+\ProvidesFile{lutf8x.def}
+   [2009/03/20 v0.9 UTF-8 support for luainputenc]
+
+\makeatletter
+\catcode`\ \saved@space@catcode
+
+\@inpenc@test
+
+\ifx\@begindocumenthook\@undefined
+  \makeatother
+  \endinput \fi
+
+\gdef\DeclareUnicodeCharacter#1#2{%
+ \@tempcnta"#1%
+ \luadirect{luainputenc.declare_character('\the\@tempcnta')}%
+ \catcode\@tempcnta\active %
+ \DeclareInputText{\the\@tempcnta}{#2}%
+}
+
+\@onlypreamble\DeclareUnicodeCharacter
+
+\def\cdp@elt#1#2#3#4{%
+  \wlog{Now handling font encoding #1 ...}%
+  \lowercase{%
+      \InputIfFileExists{#1enc.dfu}}%
+         {\wlog{... processing UTF-8 mapping file for font encoding
+                #1}%
+          \catcode`\ 9\relax}%
+        {\wlog{... no UTF-8 mapping file for font encoding #1}}%
+}
+\cdp@list
+
+\def\lIE@ActivateUnicodeCatcodes{%
+\luadirect{luainputenc.activate_characters()}%
+}
+
+\def\lIE@DesactivateUnicodeCatcodes{%
+\luadirect{luainputenc.desactivate_characters()}%
+}
+
+\def\lIE@CharactersActivated{%
+\luadirect{luainputenc.force_characters_activated()}
+}
+
 \edef\lIE@EU{EU2}
 
 \def\DeclareFontEncoding@#1#2#3{%
   \edef\lIE@test{#1}%
-  %\edef\lIE@EU{EU2}%
   \ifx\lIE@test\lIE@EU %
-    \lIE@DesactivateUnicodeCatcodes %
-    \def\@@enc@update{%
+    \luadirect{texio.write_nl('lastdeclared: '..[[\LastDeclaredEncoding]])}
+    %\ifx\LastDeclaredEncoding\lIE@EU\else %
+      \lIE@CharactersActivated %
+    %  \lIE@DesactivateUnicodeCatcodes %
+    %\fi
+    \gdef\@@enc@update{%
       \edef\lIE@test{#1}%
-      %\edef\lIE@EU{EU2}%
-      %\luadirect{texio.write_nl([[\f@encoding]])}
-      \ifx\lIE@test\lIE@EU %
+      \luadirect{texio.write_nl('appela encupudate: '..[[\f@encoding]])}
+      \ifx\f@encoding\lIE@EU %
         \lIE@DesactivateUnicodeCatcodes %
+        \luadirect{texio.write_nl("path2")}
        \else %
+        \luadirect{texio.write_nl("path1")}
         \lIE@ActivateUnicodeCatcodes %
       \fi
       \expandafter\let\csname\cf@encoding-cmd\endcsname\@changed@cmd
@@ -607,7 +737,7 @@ and the derived files
   \global\@namedef{M@#1}{\default@M#3}%
   \xdef\LastDeclaredEncoding{#1}%
 }
-  
+
 \DeclareUnicodeCharacter{00A9}{\textcopyright}
 \DeclareUnicodeCharacter{00AA}{\textordfeminine}
 \DeclareUnicodeCharacter{00AE}{\textregistered}
@@ -622,7 +752,82 @@ and the derived files
 %    \end{macrocode}
 %
 % \iffalse
-%</def>
+%</defx>
+% \fi
+%
+%
+% \iffalse
+%<*eu2>
+% \fi
+%
+% \subsection{\texttt{eu2enc.def}}
+%    \begin{macrocode}
+
+\ProvidesFile{eu2enc.def}[2009/03/23 v0.1 a Experimental unicode font encoding for LuaTeX.]
+\DeclareFontEncoding{EU2}{}{}
+\DeclareErrorFont{EU2}{lmr}{m}{n}{10}
+\DeclareFontSubstitution{EU2}{lmr}{m}{n}
+
+%    \end{macrocode}
+%
+% \iffalse
+%</eu2>
+% \fi
+%
+% \iffalse
+%<*lmr>
+% \fi
+%
+% \subsection{\texttt{eu2lmr.fd}}
+%    \begin{macrocode}
+
+\ProvidesFile{eu2lmr.fd}
+    [2009/03/23 v0.1 Font defs for Latin Modern for LuaTeX]
+\DeclareFontFamily{EU2}{lmr}{}
+\DeclareFontShape{EU2}{lmr}{m}{n}%
+     {<-5.5>    "lmroman5-regular"     <5.5-6.5> "lmroman6-regular"
+      <6.5-7.5> "lmroman7-regular"     <7.5-8.5> "lmroman8-regular"
+      <8.5-9.5> "lmroman9-regular"     <9.5-11>  "lmroman10-regular"
+      <11-15>   "lmroman12-regular"
+      <15-> "lmroman17-regular"
+      }{}
+\DeclareFontShape{EU2}{lmr}{m}{sl}%
+     {<-8.5>    "lmroman8-oblique"    <8.5-9.5> "lmroman9-oblique"
+      <9.5-11>  "lmroman10-oblique"   <11-15>   "lmroman12-oblique"
+      <15-> "lmroman17-oblique"
+      }{}
+\DeclareFontShape{EU2}{lmr}{m}{it}%
+     {<-7.5>    "lmroman7-italic"
+      <7.5-8.5> "lmroman8-italic"    <8.5-9.5> "lmroman9-italic"
+      <9.5-11>  "lmroman10-italic"   <11->   "lmroman12-italic"
+      }{}
+\DeclareFontShape{EU2}{lmr}{m}{sc}%
+     {<-> "lmroman10-capsregular"}{}
+%
+% Is this the right 'shape'?:
+\DeclareFontShape{EU2}{lmr}{m}{scsl}%
+     {<-> "lmroman10-capsoblique"}{}
+%%%%%%% bold series
+\DeclareFontShape{EU2}{lmr}{b}{n}
+     {<-> "lmroman10-demi"}{}
+\DeclareFontShape{EU2}{lmr}{b}{sl}
+     {<-> "lmroman10-demioblique"}{}
+%%%%%%%% bold extended series
+\DeclareFontShape{EU2}{lmr}{bx}{n}
+     {<-5.5>   "lmroman5-bold"      <5.5-6.5> "lmroman6-bold"
+      <6.5-7.5> "lmroman7-bold"      <7.5-8.5> "lmroman8-bold"
+      <8.5-9.5> "lmroman9-bold"      <9.5-11>  "lmroman10-bold"
+      <11->   "lmroman12-bold"
+      }{}
+\DeclareFontShape{EU2}{lmr}{bx}{it}
+     {<-> "lmroman10-bolditalic"}{}
+\DeclareFontShape{EU2}{lmr}{bx}{sl}
+     {<-> "lmroman10-boldoblique"}{}
+
+%    \end{macrocode}
+%
+% \iffalse
+%</lmr>
 % \fi
 %
 % \subsection{\texttt{luainputenc.lua}}
