@@ -194,16 +194,16 @@ and the derived files
 +
 +\begingroup\expandafter\expandafter\expandafter\endgroup   
 +\expandafter\ifx\csname XeTeXversion\endcsname\relax\else
-+  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{xetex-inputenc}}
-+  \ProcessOptions
 +  \RequirePackage{xetex-inputenc}
++  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{xetex-inputenc}}
++  \ProcessOptions*
 +  \expandafter\endinput
 +\fi
 +\begingroup\expandafter\expandafter\expandafter\endgroup   
 +\expandafter\ifx\csname directlua\endcsname\relax\else
-+  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{luainputenc}}
-+  \ProcessOptions
 +  \RequirePackage{luainputenc}
++  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{luainputenc}}
++  \ProcessOptions*
 +  \expandafter\endinput
 +\fi
 +
@@ -245,6 +245,23 @@ and the derived files
 %%
 %% This file is distributed under the CC0 license, with clause 6 of the lppl as
 %% additional restrictions.
+
+\RequirePackage{ifluatex}
+\RequirePackage{ifxetex}
+
+\ifxetex
+  \RequirePackage{xetex-inputenc}
+  \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{inputenc}}
+  \ProcessOptions*
+  \expandafter\endinput
+\fi
+
+\ifluatex\else
+  \RequirePackage{inputenc}
+  \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{inputenc}}
+  \ProcessOptions*
+  \expandafter\endinput
+\fi
 
 \RequirePackage{luatextra}
 
