@@ -195,14 +195,14 @@ and the derived files
 +\begingroup\expandafter\expandafter\expandafter\endgroup   
 +\expandafter\ifx\csname XeTeXversion\endcsname\relax\else
 +  \RequirePackage{xetex-inputenc}
-+  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{xetex-inputenc}}
++  \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{xetex-inputenc}}
 +  \ProcessOptions*
 +  \expandafter\endinput
 +\fi
 +\begingroup\expandafter\expandafter\expandafter\endgroup   
 +\expandafter\ifx\csname directlua\endcsname\relax\else
 +  \RequirePackage{luainputenc}
-+  \DeclareOption*{\PassOptionToPackage{\CurrentOption}{luainputenc}}
++  \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{luainputenc}}
 +  \ProcessOptions*
 +  \expandafter\endinput
 +\fi
