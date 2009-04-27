@@ -1,0 +1,26 @@
+luainputenc is the adaptation of inputenc for LuaTeX, as the old inputenc does
+not work (at all) with the LuaTeX engine.
+
+You need luatextra to use this package.
+
+Please note that you have to use this package even if you compile documents in
+UTF-8.
+
+This package automatically calls the old inputenc if called with pdfTeX, and
+xetex-inputenc if called with XeTeX, so you can safely use it with all your
+documents.
+
+The different files are:
+
+luainputenc.sty:   the LaTeX package
+luainputenc.lua:   contains the lua functions for encoding translation
+lutf8.def:         the replacement for utf8.def
+lutf8x.def:        idem, with new functionalities for unicode fonts
+eu2enc.def:        definition of the EU2 (unicode) font encoding for LuaTeX
+eu2lmr.fd:         definition of the lmodern font for the EU2 encoding
+inputenc.sty.diff: patch for inputenc.sty to load luainputenc automatically if
+                   called with LuaTeX
+                   
+Please see the luatextra-reference.pdf documentation for more details.
+                   
+This package is developped on http://github.com/eroux/lualatex/tree/master .
