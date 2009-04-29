@@ -16,9 +16,11 @@
 % This work consists of the main source file luainputenc.dtx
 % and the derived files
 %   luainputenc.sty, luainputenc.lua, lutf8.def, lutf8x.def,
-%   eu2enc.def, eu2lmr.fd, luainputenc.drv and luainputenc.pdf
+%   eu2enc.def, eu2lmr.fd and luainputenc.pdf
 %
-% Unpacking and documentation:
+% Unpacking:
+%    tex luainputenc.dtx
+% Documentation: 
 %    pdflatex luainputenc.dtx
 %
 %    The class ltxdoc loads the configuration file ltxdoc.cfg
@@ -28,7 +30,14 @@
 %
 %<*ignore>
 \begingroup
-
+  \def\x{LaTeX2e}%
+\expandafter\endgroup
+\ifcase 0\ifx\install y1\fi\expandafter
+         \ifx\csname processbatchFile\endcsname\relax\else1\fi
+         \ifx\fmtname\x\else 1\fi\relax
+\else\csname fi\endcsname
+%</ignore>
+%<*install>
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
@@ -59,14 +68,13 @@ People who helped on this package:
 This work consists of the main source file luainputenc.dtx
 and the derived files
    luainputenc.sty, luainputenc.lua, lutf8.def, lutf8x.def,
-   eu2enc.def, eu2lmr.fd, luainputenc.drv and luainputenc.pdf
+   eu2enc.def, eu2lmr.fd and luainputenc.pdf
 
 \endpreamble
 
 \let\MetaPrefix\DoubleperCent
 
 \generate{%
-  \file{luainputenc.drv}{\from{luainputenc.dtx}{driver}}%
   \usedir{tex/lualatex/luainputenc}%
   \file{luainputenc.sty}{\from{luainputenc.dtx}{package}}%
   \file{lutf8.def}{\from{luainputenc.dtx}{def}}%
@@ -111,7 +119,10 @@ and the derived files
 \Msg{*}
 \Msg{************************************************************************}
 
-\endgroup
+\endbatchfile
+%</install>
+%<*ignore>
+\fi
 %</ignore>
 % \iffalse
 %<package>
