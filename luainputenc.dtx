@@ -83,7 +83,8 @@ and the derived files
   \file{eu2lmr.fd}{\from{luainputenc.dtx}{lmr}}%
 }
 
-% The following hacks are to generate a lua file with lua comments starting by -- instead of %%
+% The following hacks are to generate a lua file with lua comments starting by
+% -- instead of %%
 
 \def\MetaPrefix{-- }
 
@@ -168,7 +169,7 @@ and the derived files
 % \maketitle
 %
 % \begin{abstract}
-% Input encoding management for Lua\TeX . For an introduction on this package (among others), please refer to the document \texttt{luatex-reference.pdf}.
+% Input encoding management for Lua\TeX . For an introduction on this package (among others), please refer to \texttt{luatex-reference.pdf}.
 % \end{abstract}
 %
 % \tableofcontents
@@ -262,21 +263,21 @@ and the derived files
 %    \begin{macrocode}
 %
 %% This file was adapted from inputenc.sty, which copyright is:
-%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
-%% The LaTeX3 Project.
+%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004
+%% 2005 2006 The LaTeX3 Project.
 %%
-%% inputenc.sty is under the lppl version 1.3c or later, and can be found in the
-%% base LaTeX system.
+%% inputenc.sty is under the lppl version 1.3c or later, and can be
+%% found in the base LaTeX system.
 %%
 %% The lppl can be found at http://www.latex-project.org/lppl.txt
 %%
-%% The changes to inputenc.sty are Copyright 2009 Elie Roux, and are under the
-%% CC0 license.
+%% The changes to inputenc.sty are Copyright 2009 Elie Roux, and are
+%% under the CC0 license.
 %%
 %% The changes are LuaTeX support.
 %%
-%% This file is distributed under the CC0 license, with clause 6 of the lppl as
-%% additional restrictions.
+%% This file is distributed under the CC0 license, with clause 6 of the
+%% lppl as additional restrictions.
 
 %    \end{macrocode}
 %
@@ -606,21 +607,21 @@ and the derived files
 %
 %    \begin{macrocode}
 %% This file was adapted from utf8.def, which copyright is:
-%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
-%% The LaTeX3 Project.
+%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003
+%% 2004 2005 2006 The LaTeX3 Project.
 %%
-%% utf8.def is under the lppl version 1.3c or later, and can be found in the
-%% base LaTeX system.
+%% utf8.def is under the lppl version 1.3c or later, and can be found
+%% in the base LaTeX system.
 %%
 %% The lppl can be found at http://www.latex-project.org/lppl.txt
 %%
-%% The changes to utf8.def are Copyright 2009 Elie Roux, and are under the
-%% CC0 license.
+%% The changes to utf8.def are Copyright 2009 Elie Roux, and are under
+%% the CC0 license.
 %%
 %% The changes are LuaTeX support.
 %%
-%% This file is distributed under the CC0 license, with clause 6 of the lppl as
-%% additional restrictions.
+%% This file is distributed under the CC0 license, with clause 6 of the
+%% lppl as additional restrictions.
 
 %    \end{macrocode}
 %
@@ -714,21 +715,21 @@ and the derived files
 %
 %    \begin{macrocode}
 %% This file was adapted from utf8.def, which copyright is:
-%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
-%% The LaTeX3 Project.
+%% Copyright 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003
+%% 2004 2005 2006 The LaTeX3 Project.
 %%
-%% utf8.def is under the lppl version 1.3c or later, and can be found in the
-%% base LaTeX system.
+%% utf8.def is under the lppl version 1.3c or later, and can be found
+%% in the base LaTeX system.
 %%
 %% The lppl can be found at http://www.latex-project.org/lppl.txt
 %%
-%% The changes to utf8.def are Copyright 2009 Elie Roux, and are under the
-%% CC0 license.
+%% The changes to utf8.def are Copyright 2009 Elie Roux, and are under
+%% the CC0 license.
 %%
 %% The changes are LuaTeX support.
 %%
-%% This file is distributed under the CC0 license, with clause 6 of the lppl as
-%% additional restrictions.
+%% This file is distributed under the CC0 license, with clause 6 of the
+%% lppl as additional restrictions.
 
 %    \end{macrocode}
 %
@@ -873,7 +874,8 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\ProvidesFile{eu2enc.def}[2009/04/15 v0.1 a unicode font encoding for LuaTeX.]
+\ProvidesFile{eu2enc.def}[2009/04/15 v0.1
+  a unicode font encoding for LuaTeX.]
 \DeclareFontEncoding{EU2}{}{}
 \DeclareErrorFont{EU2}{lmr}{m}{n}{10}
 \DeclareFontSubstitution{EU2}{lmr}{m}{n}
@@ -898,21 +900,28 @@ and the derived files
     [2009/04/15 v0.1 Font defs for Latin Modern for LuaTeX's EU2 encoding]
 \DeclareFontFamily{EU2}{lmr}{}
 \DeclareFontShape{EU2}{lmr}{m}{n}%
-     {<-5.5>    "lmroman5-regular:+tlig;+tsub;+liga"     <5.5-6.5> "lmroman6-regular:+tlig;+tsub;+liga"
-      <6.5-7.5> "lmroman7-regular:+tlig;+tsub;+liga"     <7.5-8.5> "lmroman8-regular:+tlig;+tsub;+liga"
-      <8.5-9.5> "lmroman9-regular:+tlig;+tsub;+liga"     <9.5-11>  "lmroman10-regular:+tlig;+tsub;+liga"
+     {<-5.5>    "lmroman5-regular:+tlig;+tsub;+liga"
+	  <5.5-6.5> "lmroman6-regular:+tlig;+tsub;+liga"
+      <6.5-7.5> "lmroman7-regular:+tlig;+tsub;+liga"
+	  <7.5-8.5> "lmroman8-regular:+tlig;+tsub;+liga"
+      <8.5-9.5> "lmroman9-regular:+tlig;+tsub;+liga"
+	  <9.5-11>  "lmroman10-regular:+tlig;+tsub;+liga"
       <11-15>   "lmroman12-regular:+tlig;+tsub;+liga"
-      <15-> "lmroman17-regular:+tlig;+tsub;+liga"
+      <15->     "lmroman17-regular:+tlig;+tsub;+liga"
       }{}
 \DeclareFontShape{EU2}{lmr}{m}{sl}%
-     {<-8.5>    "lmroman8-oblique:+tlig;+tsub;+liga"    <8.5-9.5> "lmroman9-oblique:+tlig;+tsub;+liga"
-      <9.5-11>  "lmroman10-oblique:+tlig;+tsub;+liga"   <11-15>   "lmroman12-oblique:+tlig;+tsub;+liga"
-      <15-> "lmroman17-oblique:+tlig;+tsub;+liga"
+     {<-8.5>    "lmroman8-oblique:+tlig;+tsub;+liga"
+	  <8.5-9.5> "lmroman9-oblique:+tlig;+tsub;+liga"
+      <9.5-11>  "lmroman10-oblique:+tlig;+tsub;+liga"
+	  <11-15>   "lmroman12-oblique:+tlig;+tsub;+liga"
+      <15->     "lmroman17-oblique:+tlig;+tsub;+liga"
       }{}
 \DeclareFontShape{EU2}{lmr}{m}{it}%
      {<-7.5>    "lmroman7-italic:+tlig;+tsub;+liga"
-      <7.5-8.5> "lmroman8-italic:+tlig;+tsub;+liga"    <8.5-9.5> "lmroman9-italic:+tlig;+tsub;+liga"
-      <9.5-11>  "lmroman10-italic:+tlig;+tsub;+liga"   <11->   "lmroman12-italic:+tlig;+tsub;+liga"
+      <7.5-8.5> "lmroman8-italic:+tlig;+tsub;+liga"
+	  <8.5-9.5> "lmroman9-italic:+tlig;+tsub;+liga"
+      <9.5-11>  "lmroman10-italic:+tlig;+tsub;+liga"
+	  <11->     "lmroman12-italic:+tlig;+tsub;+liga"
       }{}
 \DeclareFontShape{EU2}{lmr}{m}{sc}%
      {<-> "lmroman10-capsregular:+tlig;+tsub;+liga"}{}
@@ -927,10 +936,13 @@ and the derived files
      {<-> "lmroman10-demioblique:+tlig;+tsub;+liga"}{}
 %%%%%%%% bold extended series
 \DeclareFontShape{EU2}{lmr}{bx}{n}
-     {<-5.5>   "lmroman5-bold:+tlig;+tsub;+liga"      <5.5-6.5> "lmroman6-bold:+tlig;+tsub;+liga"
-      <6.5-7.5> "lmroman7-bold:+tlig;+tsub;+liga"      <7.5-8.5> "lmroman8-bold:+tlig;+tsub;+liga"
-      <8.5-9.5> "lmroman9-bold:+tlig;+tsub;+liga"      <9.5-11>  "lmroman10-bold:+tlig;+tsub;+liga"
-      <11->   "lmroman12-bold:+tlig;+tsub;+liga"
+     {<-5.5>    "lmroman5-bold:+tlig;+tsub;+liga"
+	  <5.5-6.5> "lmroman6-bold:+tlig;+tsub;+liga"
+      <6.5-7.5> "lmroman7-bold:+tlig;+tsub;+liga"
+	  <7.5-8.5> "lmroman8-bold:+tlig;+tsub;+liga"
+      <8.5-9.5> "lmroman9-bold:+tlig;+tsub;+liga"
+	  <9.5-11>  "lmroman10-bold:+tlig;+tsub;+liga"
+      <11->     "lmroman12-bold:+tlig;+tsub;+liga"
       }{}
 \DeclareFontShape{EU2}{lmr}{bx}{it}
      {<-> "lmroman10-bolditalic:+tlig;+tsub;+liga"}{}
@@ -973,7 +985,8 @@ luainputenc.log = luainputenc.log or function(...)
   luatextra.module_log('luainputenc', format(...))
 end
 
-local char, utfchar, byte, format, gsub = string.char, unicode.utf8.char, string.byte, string.format, string.gsub
+local char, utfchar, byte, format, gsub =
+string.char, unicode.utf8.char, string.byte, string.format, string.gsub
 
 local started, stopped = 1, 0
 
@@ -1024,7 +1037,8 @@ end
 %    \begin{macrocode}
 
 function luainputenc.start()
-    callback.add('process_input_buffer', luainputenc.fake_utf, 'luainputenc.fake_utf')
+    callback.add('process_input_buffer', luainputenc.fake_utf,
+		'luainputenc.fake_utf')
     luainputenc.state = started
     if luainputenc.callback_registered == 0 then
         luainputenc.register_callback()
@@ -1173,7 +1187,8 @@ luainputenc.callback_registered = 0
 
 function luainputenc.register_callback()
     if luainputenc.callback_registered == 0 then
-        callback.add('pre_read_file', luainputenc.pre_read_file, 'luainputenc.pre_read_file')
+        callback.add('pre_read_file', luainputenc.pre_read_file,
+			'luainputenc.pre_read_file')
         callback.add('file_close', luainputenc.close, 'luainputenc.close')
         luainputenc.callback_registered = 1
     end
