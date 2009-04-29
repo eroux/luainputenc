@@ -10,7 +10,14 @@ This package automatically calls the old inputenc if called with pdfTeX, and
 xetex-inputenc if called with XeTeX, so you can safely use it with all your
 documents.
 
-The different files are:
+The distributed files are:
+
+luainputenc.dtx: the source code
+luainputenc.pdf: the documentation
+
+See the first comment in luainputenc.dtx to know how to generate the files.
+
+The derived files are:
 
 luainputenc.sty:   the LaTeX package
 luainputenc.lua:   contains the lua functions for encoding translation
@@ -21,6 +28,6 @@ eu2lmr.fd:         definition of the lmodern font for the EU2 encoding
 inputenc.sty.diff: patch for inputenc.sty to load luainputenc automatically if
                    called with LuaTeX
                    
-Please see the luatextra-reference.pdf documentation for more details.
+Please see the luatextra-reference.pdf documentation for an introduction.
                    
 This package is developped on http://github.com/eroux/lualatex/tree/master .
