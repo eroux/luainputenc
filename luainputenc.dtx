@@ -134,6 +134,7 @@ and the derived files
 % \fi
 %<*driver>
 \documentclass{ltxdoc}
+\usepackage[lmargin=5cm, textwidth=14cm]{geometry}
 \EnableCrossrefs
 \CodelineIndex
 \begin{document}
@@ -351,7 +352,7 @@ and the derived files
 }
 %    \end{macrocode}
 %
-% We changed a little the behaviour of this macro: we removed the line |\@inpenc@loop\^^?\^^ff|, because it made no sense in UTF-8 mode. We will call this line for 8-bit encodings.
+% We changed a little the behaviour of this macro: we removed |\@inpenc@loop\^^?\^^ff|, because it made no sense in UTF-8 mode. We will call this line for 8-bit encodings.
 %
 %    \begin{macrocode}
 \def\inputencoding#1{%
