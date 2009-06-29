@@ -43,7 +43,6 @@ Manifest
 
 Source files:
         luainputenc.dtx         the single file source & doc
-        luainputenc.pdf         the documentation
 
 Derived files:
         luainputenc.pdf         the documentation
@@ -75,6 +74,7 @@ http://creativecommons.org/publicdomain/zero/1.0/legalcode
 The file luainputenc.dtx contains code with the lppl restriction as well as the
 derived files
   luainputenc.sty
+  luainputenc.pdf
   lutf8.def
   lutf8x.def
 
