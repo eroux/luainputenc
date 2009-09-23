@@ -41,7 +41,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: luainputenc 2009/04/15 v0.93 inputenc package for LuaTeX}
+\Msg{* Package: luainputenc 2009/09/23 v0.94 inputenc package for LuaTeX}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -129,7 +129,7 @@ and the derived files
 %<package>
 %<package>\NeedsTeXFormat{LaTeX2e}
 %<package>\ProvidesPackage{luainputenc}
-%<package>  [2009/04/15 v0.93 inputenc package for LuaTeX]
+%<package>  [2009/09/23 v0.94 inputenc package for LuaTeX]
 %<package>
 % \fi
 %<*driver>
@@ -164,7 +164,7 @@ and the derived files
 % \GetFileInfo{luainputenc.sty}
 %
 % \title{The \textsf{luainputenc} package}
-% \date{2009/04/15 v0.93}
+% \date{2009/09/23 v0.94}
 % \author{Elie Roux \\ \texttt{elie.roux@telecom-bretagne.eu}}
 %
 % \maketitle
@@ -202,7 +202,15 @@ and the derived files
 % \textsf{inputenc}) it reads the char numbers, and converts it into LICR
 % (\LaTeX\ Internal Character Representation), with the font encoding.
 %
-% \textsf{luainputenc} only changes the input behaviour, it does not change
+% In Lua\TeX\ version 0.43, a new callback called |process_output_buffer|,
+% this callbacks allows to make Lua\TeX\ write 8-bit instead of UTF-8, so the
+% behaviour is the same as pdfTeX as this level. For versions prior to 0.43
+% though, we need to do more tricky things, described in the next paragraph.
+% This machinery is disabled for Lua\TeX\ version 0.43 and superior, so you
+% can keep the default behaviour, which will be compatible with pdfTeX in 
+% most cases, but you can consider the machinery obsolete.
+%
+% For these old versions, \textsf{luainputenc} only changes the input behaviour, it does not change
 % the ouput behaviour (when files are written for example). The consequence is
 % that files will still be written by Lua\TeX\ in UTF-8 (fake UTF-8 in this
 % case), even if the asked input encoding is a 8-bit encoding. In most cases
@@ -387,7 +395,7 @@ and the derived files
 
 \RequirePackage{luatextra}
 
-\luaUseModule{luainputenc}
+\luatexUseModule{luainputenc}
 
 %    \end{macrocode}
 %
@@ -427,6 +435,7 @@ and the derived files
 %    call this line for 8-bit encodings.
 %
 %    \begin{macrocode}
+
 \def\inputencoding#1{%
   \the\inpenc@prehook
   \gdef\@inpenc@test{\global\let\@inpenc@test\relax}%
@@ -518,6 +527,22 @@ and the derived files
   \@inpenc@loop\^^?\^^ff%
   \inputencoding{\CurrentOption}%
 }
+
+%    \end{macrocode}
+%
+%    The rest of the file is only the machinery for LuaTeX versions without
+%    the callback |process_output_buffer|, so it will be deprecated after
+%    TeXLive 2009, you are not advised to use it.
+%
+%    \begin{macrocode}
+
+\ifnum\luatexversion>42
+
+    \newcommand*{\lIE@activate}[0]{%
+      \luadirect{luainputenc.register_callbacks()}%
+    }
+
+\else
 
 %    \end{macrocode}
 %
@@ -694,6 +719,8 @@ and the derived files
   \fi%
 }
 
+\fi
+
 \ProcessOptions*
 
 %    \end{macrocode}
@@ -736,7 +763,7 @@ and the derived files
 
 
 \ProvidesFile{lutf8.def}
-   [2009/04/15 v0.93 UTF-8 support for luainputenc]
+   [2009/09/23 v0.94 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -852,7 +879,7 @@ and the derived files
 %    \begin{macrocode}
 
 \ProvidesFile{lutf8x.def}
-   [2009/04/15 v0.93 UTF-8 support for luainputenc]
+   [2009/09/23 v0.94 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -997,8 +1024,7 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\ProvidesFile{eu2enc.def}[2009/04/15 v0.1
-  a unicode font encoding for LuaTeX.]
+\ProvidesFile{eu2enc.def}[2009/09/23 v0.1 a unicode font encoding for LuaTeX.]
 \DeclareFontEncoding{EU2}{}{}
 \DeclareErrorFont{EU2}{lmr}{m}{n}{10}
 \DeclareFontSubstitution{EU2}{lmr}{m}{n}
@@ -1022,57 +1048,57 @@ and the derived files
 %    \begin{macrocode}
 
 \ProvidesFile{eu2lmr.fd}
-    [2009/04/15 v0.1 Font defs for Latin Modern for LuaTeX's EU2 encoding]
+    [2009/09/23 v0.2 Font defs for Latin Modern for LuaTeX's EU2 encoding]
 \DeclareFontFamily{EU2}{lmr}{}
 \DeclareFontShape{EU2}{lmr}{m}{n}%
-     {<-5.5>    "lmroman5-regular:+tlig;+tsub;+liga"
-	  <5.5-6.5> "lmroman6-regular:+tlig;+tsub;+liga"
-      <6.5-7.5> "lmroman7-regular:+tlig;+tsub;+liga"
-	  <7.5-8.5> "lmroman8-regular:+tlig;+tsub;+liga"
-      <8.5-9.5> "lmroman9-regular:+tlig;+tsub;+liga"
-	  <9.5-11>  "lmroman10-regular:+tlig;+tsub;+liga"
-      <11-15>   "lmroman12-regular:+tlig;+tsub;+liga"
-      <15->     "lmroman17-regular:+tlig;+tsub;+liga"
+     {<-5.5>    "lmroman5-regular:+tlig;+tsub;+liga;+rlig;"
+	  <5.5-6.5> "lmroman6-regular:+tlig;+tsub;+liga;+rlig;"
+      <6.5-7.5> "lmroman7-regular:+tlig;+tsub;+liga;+rlig;"
+	  <7.5-8.5> "lmroman8-regular:+tlig;+tsub;+liga;+rlig;"
+      <8.5-9.5> "lmroman9-regular:+tlig;+tsub;+liga;+rlig;"
+	  <9.5-11>  "lmroman10-regular:+tlig;+tsub;+liga;+rlig;"
+      <11-15>   "lmroman12-regular:+tlig;+tsub;+liga;+rlig;"
+      <15->     "lmroman17-regular:+tlig;+tsub;+liga;+rlig;"
       }{}
 \DeclareFontShape{EU2}{lmr}{m}{sl}%
-     {<-8.5>    "lmroman8-oblique:+tlig;+tsub;+liga"
-	  <8.5-9.5> "lmroman9-oblique:+tlig;+tsub;+liga"
-      <9.5-11>  "lmroman10-oblique:+tlig;+tsub;+liga"
-	  <11-15>   "lmroman12-oblique:+tlig;+tsub;+liga"
-      <15->     "lmroman17-oblique:+tlig;+tsub;+liga"
+     {<-8.5>    "lmroman8-oblique:+tlig;+tsub;+liga;+rlig;"
+	  <8.5-9.5> "lmroman9-oblique:+tlig;+tsub;+liga;+rlig;"
+      <9.5-11>  "lmroman10-oblique:+tlig;+tsub;+liga;+rlig;"
+	  <11-15>   "lmroman12-oblique:+tlig;+tsub;+liga;+rlig;"
+      <15->     "lmroman17-oblique:+tlig;+tsub;+liga;+rlig;"
       }{}
 \DeclareFontShape{EU2}{lmr}{m}{it}%
-     {<-7.5>    "lmroman7-italic:+tlig;+tsub;+liga"
-      <7.5-8.5> "lmroman8-italic:+tlig;+tsub;+liga"
-	  <8.5-9.5> "lmroman9-italic:+tlig;+tsub;+liga"
-      <9.5-11>  "lmroman10-italic:+tlig;+tsub;+liga"
-	  <11->     "lmroman12-italic:+tlig;+tsub;+liga"
+     {<-7.5>    "lmroman7-italic:+tlig;+tsub;+liga;+rlig;"
+      <7.5-8.5> "lmroman8-italic:+tlig;+tsub;+liga;+rlig;"
+	  <8.5-9.5> "lmroman9-italic:+tlig;+tsub;+liga;+rlig;"
+      <9.5-11>  "lmroman10-italic:+tlig;+tsub;+liga;+rlig;"
+	  <11->     "lmroman12-italic:+tlig;+tsub;+liga;+rlig;"
       }{}
 \DeclareFontShape{EU2}{lmr}{m}{sc}%
-     {<-> "lmroman10-capsregular:+tlig;+tsub;+liga"}{}
+     {<-> "lmroman10-capsregular:+tlig;+tsub;+liga;+rlig;"}{}
 %
 % Is this the right 'shape'?:
 \DeclareFontShape{EU2}{lmr}{m}{scsl}%
-     {<-> "lmroman10-capsoblique:+tlig;+tsub;+liga"}{}
+     {<-> "lmroman10-capsoblique:+tlig;+tsub;+liga;+rlig;"}{}
 %%%%%%% bold series
 \DeclareFontShape{EU2}{lmr}{b}{n}
-     {<-> "lmroman10-demi:+tlig;+tsub;+liga"}{}
+     {<-> "lmroman10-demi:+tlig;+tsub;+liga;+rlig;"}{}
 \DeclareFontShape{EU2}{lmr}{b}{sl}
-     {<-> "lmroman10-demioblique:+tlig;+tsub;+liga"}{}
+     {<-> "lmroman10-demioblique:+tlig;+tsub;+liga;+rlig;"}{}
 %%%%%%%% bold extended series
 \DeclareFontShape{EU2}{lmr}{bx}{n}
-     {<-5.5>    "lmroman5-bold:+tlig;+tsub;+liga"
-	  <5.5-6.5> "lmroman6-bold:+tlig;+tsub;+liga"
-      <6.5-7.5> "lmroman7-bold:+tlig;+tsub;+liga"
-	  <7.5-8.5> "lmroman8-bold:+tlig;+tsub;+liga"
-      <8.5-9.5> "lmroman9-bold:+tlig;+tsub;+liga"
-	  <9.5-11>  "lmroman10-bold:+tlig;+tsub;+liga"
-      <11->     "lmroman12-bold:+tlig;+tsub;+liga"
+     {<-5.5>    "lmroman5-bold:+tlig;+tsub;+liga;+rlig;"
+	  <5.5-6.5> "lmroman6-bold:+tlig;+tsub;+liga;+rlig;"
+      <6.5-7.5> "lmroman7-bold:+tlig;+tsub;+liga;+rlig;"
+	  <7.5-8.5> "lmroman8-bold:+tlig;+tsub;+liga;+rlig;"
+      <8.5-9.5> "lmroman9-bold:+tlig;+tsub;+liga;+rlig;"
+	  <9.5-11>  "lmroman10-bold:+tlig;+tsub;+liga;+rlig;"
+      <11->     "lmroman12-bold:+tlig;+tsub;+liga;+rlig;"
       }{}
 \DeclareFontShape{EU2}{lmr}{bx}{it}
-     {<-> "lmroman10-bolditalic:+tlig;+tsub;+liga"}{}
+     {<-> "lmroman10-bolditalic:+tlig;+tsub;+liga;+rlig;"}{}
 \DeclareFontShape{EU2}{lmr}{bx}{sl}
-     {<-> "lmroman10-boldoblique:+tlig;+tsub;+liga"}{}
+     {<-> "lmroman10-boldoblique:+tlig;+tsub;+liga;+rlig;"}{}
 
 %    \end{macrocode}
 %
@@ -1095,8 +1121,8 @@ luainputenc = { }
 
 luainputenc.module = {
     name          = "luainputenc",
-    version       =  0.93,
-    date          = "2009/04/15",
+    version       =  0.94,
+    date          = "2009/09/23",
     description   = "Lua simple inputenc package.",
     author        = "Elie Roux",
     copyright     = "Elie Roux",
@@ -1111,30 +1137,8 @@ luainputenc.log = luainputenc.log or function(...)
   luatextra.module_log('luainputenc', format(...))
 end
 
-local char, utfchar, byte, format, gsub =
-string.char, unicode.utf8.char, string.byte, string.format, string.gsub
-
-local started, stopped = 1, 0
-
-luainputenc.state = stopped
-
-function luainputenc.setstate(state)
-    if state == luainputenc.state then
-        return
-    elseif state == started then
-        luainputenc.start()
-    else
-        luainputenc.stop()
-    end
-end
-
-function luainputenc.setstarted()
-    luainputenc.setstate(started)
-end
-
-function luainputenc.setstopped()
-    luainputenc.setstate(stopped)
-end
+local char, utfchar, byte, format, gsub, utfbyte, utfgsub =
+string.char, unicode.utf8.char, string.byte, string.format, string.gsub, unicode.utf8.byte, unicode.utf8.gsub
 
 %    \end{macrocode}
 %
@@ -1143,8 +1147,8 @@ end
 %
 %    \begin{macrocode}
 
-function luainputenc.byte_to_utf(c)
-    return utfchar(byte(c))
+function luainputenc.byte_to_utf(ch)
+    return utfchar(byte(ch))
 end
 
 %    \end{macrocode}
@@ -1154,9 +1158,49 @@ end
 %
 %    \begin{macrocode}
 
-function luainputenc.fake_utf(buf)
+function luainputenc.fake_utf_read(buf)
     return gsub(buf,"(.)", luainputenc.byte_to_utf)
 end
+
+%    \end{macrocode}
+%
+%    The function to transform a fake utf8 character in the corresponding 
+%    8-bit character.
+%
+%    \begin{macrocode}
+
+function luainputenc.utf_to_byte(ch)
+    return char(utfbyte(ch))
+end
+
+%    \end{macrocode}
+%
+%    The function that will be registered in the
+%    \texttt{process\_output\_buffer} callback if it exists.
+%
+%    \begin{macrocode}
+
+function luainputenc.fake_utf_write(buf)
+    return utfgsub(buf,"(.)", luainputenc.utf_to_byte)
+end
+
+%    \end{macrocode}
+%
+%    Here we register the two callbacks, and the behaviour is the same as in pdfTeX.
+%    The next part of the file is only the machinery for LuaTeX versions without
+%    the callback |process_output_buffer|, so it will be deprecated after
+%    TeXLive 2009, you are not advised to use it.
+%
+%    \begin{macrocode}
+
+if tex.luatexversion > 42 then
+
+    function luainputenc.register_callbacks()
+        callback.add('process_output_buffer', luainputenc.fake_utf_write, 'luainputenc.fake_utf_write')
+        callback.add('process_input_buffer', luainputenc.fake_utf_read, 'luainputenc.fake_utf_read')
+    end
+    
+else
 
 %    \end{macrocode}
 %
@@ -1166,20 +1210,42 @@ end
 %
 %    \begin{macrocode}
 
-function luainputenc.start()
-    callback.add('process_input_buffer', luainputenc.fake_utf,
-		'luainputenc.fake_utf')
-    luainputenc.state = started
-    if luainputenc.callback_registered == 0 then
-        luainputenc.register_callback()
-    end
-end
+    local started, stopped = 1, 0
 
-function luainputenc.stop()
-    callback.remove('process_input_buffer', 'luainputenc.fake_utf')
     luainputenc.state = stopped
-    return
-end
+
+    function luainputenc.setstate(state)
+        if state == luainputenc.state then
+            return
+        elseif state == started then
+            luainputenc.start()
+        else
+            luainputenc.stop()
+        end
+    end
+
+    function luainputenc.setstarted()
+        luainputenc.setstate(started)
+    end
+
+    function luainputenc.setstopped()
+        luainputenc.setstate(stopped)
+    end
+
+    function luainputenc.start()
+        callback.add('process_input_buffer', luainputenc.fake_utf_read,
+            'luainputenc.fake_utf_read')
+        luainputenc.state = started
+        if luainputenc.callback_registered == 0 then
+            luainputenc.register_callback()
+        end
+    end
+    
+    function luainputenc.stop()
+        callback.remove('process_input_buffer', 'luainputenc.fake_utf_read')
+        luainputenc.state = stopped
+        return
+    end
 
 %    \end{macrocode}
 %
@@ -1190,56 +1256,56 @@ end
 %
 %    \begin{macrocode}
 
-luainputenc.unicode_extentions = {
-  ['.aux'] = 1, -- basic files
-  ['.toc'] = 1,
-  ['.gls'] = 1,
-  ['.ind'] = 1,
-  ['.idx'] = 1,
-  ['.vrb'] = 1, -- beamer and powerdot
-  ['.nav'] = 1, -- other beamer extentions
-  ['.sol'] = 1,
-  ['.qsl'] = 1,
-  ['.snm'] = 1,
-  ['.pgn'] = 1, -- pagereference
-  ['.cpg'] = 1, -- AlProTeX
-  ['.pst'] = 1, -- pst-tree
-  ['.tmp'] = 1, -- sauerj/collect
-  ['.sym'] = 1, -- listofsymbols
-  ['.sub'] = 1, -- listofsymbols
-  ['.lof'] = 1, -- preprint
-  ['.lot'] = 1, -- preprint
-  ['mtc1'] = 1, -- minitoc
-  ['.ovr'] = 1, -- thumbss
-  ['.fff'] = 1, -- endplate
-  ['.sbb'] = 1, -- splitbib
-  ['.bbl'] = 1, -- latex
-  ['.ain'] = 1, -- authorindex
-  ['.abb'] = 1, -- juraabbrev
-  ['.ent'] = 1, -- endnotes
-  ['.end'] = 1, -- fn2end
-  ['.thm'] = 1, -- ntheorem
-  ['.xtr'] = 1, -- extract
-  ['.han'] = 1, -- linguho
-  ['.bnd'] = 1, -- bibref
-  ['.bbl'] = 1, -- bibref
-  ['.col'] = 1, -- mwrite
-  ['.ttt'] = 1, -- endfloat
-  ['.fax'] = 1, -- lettre
-  ['.tns'] = 1, -- lettre
-  ['.odt'] = 1, -- lettre
-  ['.etq'] = 1, -- lettre
-  ['.emd'] = 1, -- poemscol
-  ['.emx'] = 1, -- poemscol
-  ['.ctn'] = 1, -- poemscol
-  ['.hst'] = 1, -- vhistory
-  ['.acr'] = 1, -- crosswrd
-  ['.dwn'] = 1, -- crosswrd
-  ['.ttc'] = 1, -- talk
-  -- ['.txt'] = 1, -- coverpage, but not sure it's safe to include it...
-  ['.eve'] = 1, -- calend0
-  ['.scn'] = 1, -- cwebmac
-  }
+    luainputenc.unicode_extentions = {
+      ['.aux'] = 1, -- basic files
+      ['.toc'] = 1,
+      ['.gls'] = 1,
+      ['.ind'] = 1,
+      ['.idx'] = 1,
+      ['.vrb'] = 1, -- beamer and powerdot
+      ['.nav'] = 1, -- other beamer extentions
+      ['.sol'] = 1,
+      ['.qsl'] = 1,
+      ['.snm'] = 1,
+      ['.pgn'] = 1, -- pagereference
+      ['.cpg'] = 1, -- AlProTeX
+      ['.pst'] = 1, -- pst-tree
+      ['.tmp'] = 1, -- sauerj/collect
+      ['.sym'] = 1, -- listofsymbols
+      ['.sub'] = 1, -- listofsymbols
+      ['.lof'] = 1, -- preprint
+      ['.lot'] = 1, -- preprint
+      ['mtc1'] = 1, -- minitoc
+      ['.ovr'] = 1, -- thumbss
+      ['.fff'] = 1, -- endplate
+      ['.sbb'] = 1, -- splitbib
+      ['.bbl'] = 1, -- latex
+      ['.ain'] = 1, -- authorindex
+      ['.abb'] = 1, -- juraabbrev
+      ['.ent'] = 1, -- endnotes
+      ['.end'] = 1, -- fn2end
+      ['.thm'] = 1, -- ntheorem
+      ['.xtr'] = 1, -- extract
+      ['.han'] = 1, -- linguho
+      ['.bnd'] = 1, -- bibref
+      ['.bbl'] = 1, -- bibref
+      ['.col'] = 1, -- mwrite
+      ['.ttt'] = 1, -- endfloat
+      ['.fax'] = 1, -- lettre
+      ['.tns'] = 1, -- lettre
+      ['.odt'] = 1, -- lettre
+      ['.etq'] = 1, -- lettre
+      ['.emd'] = 1, -- poemscol
+      ['.emx'] = 1, -- poemscol
+      ['.ctn'] = 1, -- poemscol
+      ['.hst'] = 1, -- vhistory
+      ['.acr'] = 1, -- crosswrd
+      ['.dwn'] = 1, -- crosswrd
+      ['.ttc'] = 1, -- talk
+      -- ['.txt'] = 1, -- coverpage, but not sure it's safe to include it...
+      ['.eve'] = 1, -- calend0
+      ['.scn'] = 1, -- cwebmac
+      }
 
 %    \end{macrocode}
 %
@@ -1247,58 +1313,58 @@ luainputenc.unicode_extentions = {
 %
 %    \begin{macrocode}
 
-luainputenc.unicode_files = {}
+    luainputenc.unicode_files = {}
 
-luainputenc.non_unicode_files = {}
+    luainputenc.non_unicode_files = {}
 
-function luainputenc.set_unicode_file(filename)
-    if luainputenc.non_unicode_files[filename] == 1 then
-        luainputenc.non_unicode_files[filename] = nil
+    function luainputenc.set_unicode_file(filename)
+        if luainputenc.non_unicode_files[filename] == 1 then
+            luainputenc.non_unicode_files[filename] = nil
+        end
+        luainputenc.unicode_files[filename] = 1
     end
-    luainputenc.unicode_files[filename] = 1
-end
 
-function luainputenc.set_non_unicode_file(filename)
-    if luainputenc.unicode_files[filename] == 1 then
-        luainputenc.unicode_files[filename] = nil
+    function luainputenc.set_non_unicode_file(filename)
+        if luainputenc.unicode_files[filename] == 1 then
+            luainputenc.unicode_files[filename] = nil
+        end
+        luainputenc.non_unicode_files[filename] = 1
     end
-    luainputenc.non_unicode_files[filename] = 1
-end
 
-function luainputenc.set_unicode_extention(ext)
-    luainputenc.unicode_extention[ext] = 1
-end
-
-function luainputenc.set_non_unicode_extention(ext)
-    if luainputenc.unicode_extentions[ext] == 1 then
-        luainputenc.unicode_extentions[ext] = nil
+    function luainputenc.set_unicode_extention(ext)
+        luainputenc.unicode_extention[ext] = 1
     end
-end
 
-function luainputenc.unset_file(filename)
-    if luainputenc.unicode_files[filename] == 1 then
-        luainputenc.unicode_files[filename] = nil
-    elseif luainputenc.non_unicode_files[filename] == 1 then
-        luainputenc.non_unicode_files[filename] = nil
+    function luainputenc.set_non_unicode_extention(ext)
+        if luainputenc.unicode_extentions[ext] == 1 then
+            luainputenc.unicode_extentions[ext] = nil
+        end
     end
-end
 
-local unicode, non_unicode = stopped, started
+    function luainputenc.unset_file(filename)
+        if luainputenc.unicode_files[filename] == 1 then
+            luainputenc.unicode_files[filename] = nil
+        elseif luainputenc.non_unicode_files[filename] == 1 then
+            luainputenc.non_unicode_files[filename] = nil
+        end
+    end
 
-function luainputenc.find_state(filename)
-    if luainputenc.unicode_files[filename] == 1 then
-        return unicode
-    elseif luainputenc.non_unicode_files[filename] == 1 then
-        return non_unicode
-    else
-        local ext = filename:sub(-4)
-         if luainputenc.unicode_extentions[ext] == 1 then
-             return unicode
-         else
+    local unicode, non_unicode = stopped, started
+
+    function luainputenc.find_state(filename)
+        if luainputenc.unicode_files[filename] == 1 then
+            return unicode
+        elseif luainputenc.non_unicode_files[filename] == 1 then
             return non_unicode
-         end
+        else
+            local ext = filename:sub(-4)
+             if luainputenc.unicode_extentions[ext] == 1 then
+                 return unicode
+             else
+                return non_unicode
+             end
+        end
     end
-end
 
 %    \end{macrocode}
 %
@@ -1307,25 +1373,30 @@ end
 %
 %    \begin{macrocode}
 
-function luainputenc.pre_read_file(env)
-    local currentstate = luainputenc.state
-    luainputenc.setstate(luainputenc.find_state(env.filename))
-    env.previousstate = currentstate
-end
-
-function luainputenc.close(env)
-    luainputenc.setstate(env.previousstate)
-end
-
-luainputenc.callback_registered = 0
-
-function luainputenc.register_callback()
-    if luainputenc.callback_registered == 0 then
-        callback.add('pre_read_file', luainputenc.pre_read_file,
-			'luainputenc.pre_read_file')
-        callback.add('file_close', luainputenc.close, 'luainputenc.close')
-        luainputenc.callback_registered = 1
+    function luainputenc.pre_read_file(env)
+        if not env.path then 
+            return
+        end
+        local currentstate = luainputenc.state
+        luainputenc.setstate(luainputenc.find_state(env.filename))
+        env.previousstate = currentstate
     end
+
+    function luainputenc.close(env)
+        luainputenc.setstate(env.previousstate)
+    end
+
+    luainputenc.callback_registered = 0
+
+    function luainputenc.register_callback()
+        if luainputenc.callback_registered == 0 then
+            callback.add('pre_read_file', luainputenc.pre_read_file,
+                'luainputenc.pre_read_file')
+            callback.add('file_close', luainputenc.close, 'luainputenc.close')
+            luainputenc.callback_registered = 1
+        end
+    end
+
 end
 
 %    \end{macrocode}
@@ -1334,6 +1405,7 @@ end
 %    of the non-ASCII characters.
 %
 %    \begin{macrocode}
+
 
 luainputenc.activated_characters = {}
 luainputenc.characters_are_activated = false
