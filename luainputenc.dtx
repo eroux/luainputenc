@@ -41,7 +41,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: luainputenc 2009/09/23 v0.94 inputenc package for LuaTeX}
+\Msg{* Package: luainputenc 2009/11/20 v0.95 inputenc package for LuaTeX}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -129,7 +129,7 @@ and the derived files
 %<package>
 %<package>\NeedsTeXFormat{LaTeX2e}
 %<package>\ProvidesPackage{luainputenc}
-%<package>  [2009/09/23 v0.94 inputenc package for LuaTeX]
+%<package>  [2009/11/20 v0.95 inputenc package for LuaTeX]
 %<package>
 % \fi
 %<*driver>
@@ -164,7 +164,7 @@ and the derived files
 % \GetFileInfo{luainputenc.sty}
 %
 % \title{The \textsf{luainputenc} package}
-% \date{2009/09/23 v0.94}
+% \date{2009/11/20 v0.95}
 % \author{Elie Roux \\ \texttt{elie.roux@telecom-bretagne.eu}}
 %
 % \maketitle
@@ -434,6 +434,12 @@ and the derived files
 %    |\@inpenc@loop\^^?\^^ff|, because it made no sense in UTF-8 mode. We will
 %    call this line for 8-bit encodings.
 %
+%    Note that the code has been changed for |\endlinechar|, because in new
+%    versions (from v0.43) of Lua\TeX{} the value cannot exceed 127.
+%    Thus, with the old version of \textsf{luainputenc}, when trying
+%    to add 10000, it fails silently, and when 10000 is substracted, the
+%    new value is -1, resulting in no end of lines at all in the document.
+%
 %    \begin{macrocode}
 
 \def\inputencoding#1{%
@@ -444,11 +450,12 @@ and the derived files
   \@inpenc@loop\^^A\^^H%
   \@inpenc@loop\^^K\^^K%
   \@inpenc@loop\^^N\^^_%
-  \advance\endlinechar\@M
+  \xdef\saved@endlinechar{\the\endlinechar }%
+  \endlinechar=-1
   \xdef\saved@space@catcode{\the\catcode`\ }%
   \catcode`\ 9\relax
   \input{#1.def}%
-  \advance\endlinechar-\@M
+  \endlinechar=\saved@endlinechar{}%
   \catcode`\ \saved@space@catcode\relax
   \ifx\@inpenc@test\relax\else
     \PackageWarning{inputenc}%
@@ -763,7 +770,7 @@ and the derived files
 
 
 \ProvidesFile{lutf8.def}
-   [2009/09/23 v0.94 UTF-8 support for luainputenc]
+   [2009/11/20 v0.95 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -879,7 +886,7 @@ and the derived files
 %    \begin{macrocode}
 
 \ProvidesFile{lutf8x.def}
-   [2009/09/23 v0.94 UTF-8 support for luainputenc]
+   [2009/11/20 v0.95 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -1024,7 +1031,7 @@ and the derived files
 %
 %    \begin{macrocode}
 
-\ProvidesFile{eu2enc.def}[2009/09/23 v0.1 a unicode font encoding for LuaTeX.]
+\ProvidesFile{eu2enc.def}[2009/11/20 v0.1 a unicode font encoding for LuaTeX.]
 \DeclareFontEncoding{EU2}{}{}
 \DeclareErrorFont{EU2}{lmr}{m}{n}{10}
 \DeclareFontSubstitution{EU2}{lmr}{m}{n}
@@ -1048,7 +1055,7 @@ and the derived files
 %    \begin{macrocode}
 
 \ProvidesFile{eu2lmr.fd}
-    [2009/09/23 v0.2 Font defs for Latin Modern for LuaTeX's EU2 encoding]
+    [2009/11/20 v0.2 Font defs for Latin Modern for LuaTeX's EU2 encoding]
 \DeclareFontFamily{EU2}{lmr}{}
 \DeclareFontShape{EU2}{lmr}{m}{n}%
      {<-5.5>    "lmroman5-regular:+tlig;+tsub;+liga;+rlig;"
@@ -1121,8 +1128,8 @@ luainputenc = { }
 
 luainputenc.module = {
     name          = "luainputenc",
-    version       =  0.94,
-    date          = "2009/09/23",
+    version       =  0.95,
+    date          = "2009/11/20",
     description   = "Lua simple inputenc package.",
     author        = "Elie Roux",
     copyright     = "Elie Roux",
