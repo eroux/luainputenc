@@ -277,6 +277,13 @@ and the derived files
 % old documents. To get the \emph{mixed mode}, you must pass the option
 % \texttt{lutf8x} to \textsf{luainputenc}. This mode is the most experimental.
 %
+% \section{Accessing the encoding in lua}
+%
+% In order to access the encoding and the package option in lua, two variables
+% are set: |luainputenc.package_option| contains the option passed to the
+% package, and |luainputenc.encoding| that contains the encoding (defaults to
+% utf8, and is utf8 even with the options |unactivate|, |utf8x|, etc.).
+%
 % \section{Files}
 %
 % This package contains a \texttt{.sty} file for both \LaTeX\ and Plain, a
@@ -463,6 +470,7 @@ and the derived files
               by input encoding change to `#1'\MessageBreak}%
   \fi
   \the\inpenc@posthook
+  \luadirect{luainputenc.set_option([[#1]])}
 }
 \newtoks\inpenc@prehook
 \newtoks\inpenc@posthook
@@ -519,6 +527,7 @@ and the derived files
 
 \DeclareOption{unactivate}{%
   \edef\inputencodingname{unactivate}%
+  \luadirect{luainputenc.set_option([[unactivate]])}
 }
 
 %    \end{macrocode}
@@ -1143,6 +1152,30 @@ local format = string.format
 luainputenc.log = luainputenc.log or function(...)
   luatextra.module_log('luainputenc', format(...))
 end
+
+%    \end{macrocode}
+%
+%    We keep the option and the true encoding in two variables.
+%
+%    \begin{macrocode}
+
+luainputenc.encoding = "utf8"
+luainputenc.package_option = nil
+
+function luainputenc.set_option(option)
+  luainputenc.package_option = option
+  if option == "lutf8" or option == "lutf8x" or option == "utf8x" or option == "unactivate" then
+    luainputenc.encoding = "utf8"
+  else
+    luainputenc.encoding = option
+  end
+end
+
+%    \end{macrocode}
+%
+%    Some local declarations.
+%
+%    \begin{macrocode}
 
 local char, utfchar, byte, format, gsub, utfbyte, utfgsub =
 string.char, unicode.utf8.char, string.byte, string.format, string.gsub, unicode.utf8.byte, unicode.utf8.gsub
