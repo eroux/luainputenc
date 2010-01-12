@@ -6,7 +6,7 @@ DTX = $(NAME).dtx
 
 # Files grouped by generation mode
 COMPILED = $(DOC)
-UNPACKED = eu2enc.def lutf8.def lutf8x.def eu2lmr.fd inputenc.sty.diff \
+UNPACKED = lutf8.def lutf8x.def inputenc.sty.diff \
 	   luainputenc.sty luainputenc.lua 
 SOURCE = $(DTX) README Makefile
 GENERATED = $(COMPILED) $(UNPACKED)

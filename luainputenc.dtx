@@ -16,7 +16,7 @@
 % This work consists of the main source file luainputenc.dtx
 % and the derived files
 %   luainputenc.sty, luainputenc.lua, lutf8.def, lutf8x.def,
-%   eu2enc.def, eu2lmr.fd and luainputenc.pdf
+%   and luainputenc.pdf
 %
 % Unpacking:
 %    tex luainputenc.dtx
@@ -68,7 +68,7 @@ People who helped on this package:
 This work consists of the main source file luainputenc.dtx
 and the derived files
    luainputenc.sty, luainputenc.lua, lutf8.def, lutf8x.def,
-   eu2enc.def, eu2lmr.fd and luainputenc.pdf
+   and luainputenc.pdf
 
 \endpreamble
 
@@ -79,8 +79,6 @@ and the derived files
   \file{luainputenc.sty}{\from{luainputenc.dtx}{package}}%
   \file{lutf8.def}{\from{luainputenc.dtx}{def}}%
   \file{lutf8x.def}{\from{luainputenc.dtx}{defx}}%
-  \file{eu2enc.def}{\from{luainputenc.dtx}{eu2}}%
-  \file{eu2lmr.fd}{\from{luainputenc.dtx}{lmr}}%
 }
 
 % The following hacks are to generate a lua file with lua comments starting by
@@ -114,7 +112,6 @@ and the derived files
 \Msg{* files into a directory searched by TeX:}
 \Msg{*}
 \Msg{*     luainputenc.sty luainputenc.lua lutf8.def lutf8x.def}
-\Msg{*     eu2enc.def eu2lmr.fd}
 \Msg{*}
 \Msg{* Happy TeXing!}
 \Msg{*}
@@ -260,9 +257,9 @@ and the derived files
 % We will call this behaviour the \emph{unicode font mode}. To enable this
 % mode, you can use the option \texttt{unactivate} in \textsf{luainputenc},
 % and you must use the font encoding \texttt{EU2} provided by this package
-% too. See section \ref{s:eu2} for more details about \texttt{EU2}. To use
-% this mode with \texttt{EU2}, you must be able to open OTF fonts. A simple
-% way to do so it by using the package \textsf{luaotfload}.
+% too. See documentation of \textsf{euenc} package for more details about
+% \texttt{EU2}. To use this mode with \texttt{EU2}, you must be able to open OTF
+% fonts. A simple way to do so it by using the package \textsf{luaotfload}.
 %
 % \subsubsection{mixed mode}
 %
@@ -1025,102 +1022,6 @@ and the derived files
 %</defx>
 % \fi
 %
-% \iffalse
-%<*eu2>
-% \fi
-%
-% \subsection{\texttt{eu2enc.def}\label{s:eu2}}
-%
-%    This file is extremely short. It just declares the encoding, with the
-%    default font. The default font here is lmr, which means that \LaTeX\ will
-%    read \texttt{eu2lmr.fd}. The problem is that all unicode fonts are OTF
-%    fonts, so \texttt{eu2lmr.fd} will call OTF fonts. Thus, to use
-%    \texttt{EU2}, you need to be able to read OTF fonts. The package
-%    \textsf{luaotfload} is a good choice to be able to do so.
-%
-%    \begin{macrocode}
-
-\ProvidesFile{eu2enc.def}[2009/11/20 v0.1 a unicode font encoding for LuaTeX.]
-\DeclareFontEncoding{EU2}{}{}
-\DeclareErrorFont{EU2}{lmr}{m}{n}{10}
-\DeclareFontSubstitution{EU2}{lmr}{m}{n}
-
-%    \end{macrocode}
-%
-% \iffalse
-%</eu2>
-% \fi
-%
-% \iffalse
-%<*lmr>
-% \fi
-%
-% \subsection{\texttt{eu2lmr.fd}}
-%
-%    This file simply describes the default (lmr) font of the \texttt{EU2}
-%    encoding. It loads the otf fonts with some default features enabled. This
-%    file may change, don't rely on it too much.
-%
-%    \begin{macrocode}
-
-\ProvidesFile{eu2lmr.fd}
-    [2009/11/20 v0.2 Font defs for Latin Modern for LuaTeX's EU2 encoding]
-\DeclareFontFamily{EU2}{lmr}{}
-\DeclareFontShape{EU2}{lmr}{m}{n}%
-     {<-5.5>    "lmroman5-regular:+tlig;+tsub;+liga;+rlig;"
-	  <5.5-6.5> "lmroman6-regular:+tlig;+tsub;+liga;+rlig;"
-      <6.5-7.5> "lmroman7-regular:+tlig;+tsub;+liga;+rlig;"
-	  <7.5-8.5> "lmroman8-regular:+tlig;+tsub;+liga;+rlig;"
-      <8.5-9.5> "lmroman9-regular:+tlig;+tsub;+liga;+rlig;"
-	  <9.5-11>  "lmroman10-regular:+tlig;+tsub;+liga;+rlig;"
-      <11-15>   "lmroman12-regular:+tlig;+tsub;+liga;+rlig;"
-      <15->     "lmroman17-regular:+tlig;+tsub;+liga;+rlig;"
-      }{}
-\DeclareFontShape{EU2}{lmr}{m}{sl}%
-     {<-8.5>    "lmroman8-oblique:+tlig;+tsub;+liga;+rlig;"
-	  <8.5-9.5> "lmroman9-oblique:+tlig;+tsub;+liga;+rlig;"
-      <9.5-11>  "lmroman10-oblique:+tlig;+tsub;+liga;+rlig;"
-	  <11-15>   "lmroman12-oblique:+tlig;+tsub;+liga;+rlig;"
-      <15->     "lmroman17-oblique:+tlig;+tsub;+liga;+rlig;"
-      }{}
-\DeclareFontShape{EU2}{lmr}{m}{it}%
-     {<-7.5>    "lmroman7-italic:+tlig;+tsub;+liga;+rlig;"
-      <7.5-8.5> "lmroman8-italic:+tlig;+tsub;+liga;+rlig;"
-	  <8.5-9.5> "lmroman9-italic:+tlig;+tsub;+liga;+rlig;"
-      <9.5-11>  "lmroman10-italic:+tlig;+tsub;+liga;+rlig;"
-	  <11->     "lmroman12-italic:+tlig;+tsub;+liga;+rlig;"
-      }{}
-\DeclareFontShape{EU2}{lmr}{m}{sc}%
-     {<-> "lmroman10-capsregular:+tlig;+tsub;+liga;+rlig;"}{}
-%
-% Is this the right 'shape'?:
-\DeclareFontShape{EU2}{lmr}{m}{scsl}%
-     {<-> "lmroman10-capsoblique:+tlig;+tsub;+liga;+rlig;"}{}
-%%%%%%% bold series
-\DeclareFontShape{EU2}{lmr}{b}{n}
-     {<-> "lmroman10-demi:+tlig;+tsub;+liga;+rlig;"}{}
-\DeclareFontShape{EU2}{lmr}{b}{sl}
-     {<-> "lmroman10-demioblique:+tlig;+tsub;+liga;+rlig;"}{}
-%%%%%%%% bold extended series
-\DeclareFontShape{EU2}{lmr}{bx}{n}
-     {<-5.5>    "lmroman5-bold:+tlig;+tsub;+liga;+rlig;"
-	  <5.5-6.5> "lmroman6-bold:+tlig;+tsub;+liga;+rlig;"
-      <6.5-7.5> "lmroman7-bold:+tlig;+tsub;+liga;+rlig;"
-	  <7.5-8.5> "lmroman8-bold:+tlig;+tsub;+liga;+rlig;"
-      <8.5-9.5> "lmroman9-bold:+tlig;+tsub;+liga;+rlig;"
-	  <9.5-11>  "lmroman10-bold:+tlig;+tsub;+liga;+rlig;"
-      <11->     "lmroman12-bold:+tlig;+tsub;+liga;+rlig;"
-      }{}
-\DeclareFontShape{EU2}{lmr}{bx}{it}
-     {<-> "lmroman10-bolditalic:+tlig;+tsub;+liga;+rlig;"}{}
-\DeclareFontShape{EU2}{lmr}{bx}{sl}
-     {<-> "lmroman10-boldoblique:+tlig;+tsub;+liga;+rlig;"}{}
-
-%    \end{macrocode}
-%
-% \iffalse
-%</lmr>
-% \fi
 %
 % \subsection{\texttt{luainputenc.lua}}
 %
