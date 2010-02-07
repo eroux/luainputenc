@@ -1,6 +1,6 @@
                      History of the luainputenc bundle
 
-2010/02/01, luainputenc v0.96:
+2010/02/07, luainputenc v0.96:
     * removing the files eu2enc.def and eu2lmr.fd from luainputenc, they
         can now be found in the euenc package.
     * creating luainputenc.package_option and luainputenc.encoding
