@@ -16,7 +16,8 @@ documents.
 
 Please see luatextra-reference.pdf for an introduction.
                    
-This package is developed on <http://github.com/mpg/luainputenc>.
+This package is developed on <http://github.com/mpg/luainputenc>, see the 'News'
+file for version history.
 
 Installation
 ------------
@@ -50,9 +51,6 @@ Derived files:
         luainputenc.lua         the lua functions for encoding translation
         lutf8.def               replacement for utf8.def
         lutf8x.def              idem, with new functionalities for Unicode fonts
-        eu2enc.def              definition of the EU2 (Unicode) font encoding
-                                for LuaTeX
-        eu2lmr.fd:              lmodern font definition for the EU2 encoding
         inputenc.sty.diff:      patch for inputenc.sty to load luainputenc
                                 automatically if running LuaTeX
 
@@ -83,8 +81,6 @@ For further details about their license, please see the comments in these files.
 The other derived files are
   luainputenc.lua
   inputenc.sty.diff
-  eu2enc.def
-  eu2lmr.fd
   
 These files are under the CC0 license only.
 

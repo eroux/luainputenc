@@ -1,0 +1,13 @@
+                     History of the luainputenc bundle
+
+2010/02/01, luainputenc v0.96:
+    * removing the files eu2enc.def and eu2lmr.fd from luainputenc, they
+        can now be found in the euenc package.
+    * creating luainputenc.package_option and luainputenc.encoding
+
+2009/11/28, luainputenc v0.95:
+    * fixing a bug with \endlinechar introduced in LuaTeX 0.43
+
+2009/09/23, luainputenc v0.95:
+    * adapting to the new callback process_output_buffer introduced in 
+        LuaTeX v0.43.
