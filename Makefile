@@ -8,13 +8,13 @@ DTX = $(NAME).dtx
 COMPILED = $(DOC)
 UNPACKED = lutf8.def lutf8x.def inputenc.sty.diff \
 	   luainputenc.sty luainputenc.lua 
-SOURCE = $(DTX) README Makefile News
+SOURCE = $(DTX) README Makefile NEWS
 GENERATED = $(COMPILED) $(UNPACKED)
 
 # Files grouped by installation location
 UNPACKED_DOC = inputenc.sty.diff
 RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
-DOCFILES = $(DOC) $(UNPACKED_DOC) README News
+DOCFILES = $(DOC) $(UNPACKED_DOC) README NEWS
 SRCFILES = $(DTX) Makefile
 
 # The following definitions should be equivalent

@@ -1046,12 +1046,12 @@ luainputenc.module = {
     license       = "CC0",
 }
 
-luatextra.provides_module(luainputenc.module)
+luatexbase.provides_module(luainputenc.module)
 
 local format = string.format
 
 luainputenc.log = luainputenc.log or function(...)
-  luatextra.module_log('luainputenc', format(...))
+  luatexbase.module_log('luainputenc', format(...))
 end
 
 %    \end{macrocode}
