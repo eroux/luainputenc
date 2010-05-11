@@ -41,7 +41,7 @@
 \input docstrip.tex
 \Msg{************************************************************************}
 \Msg{* Installation}
-\Msg{* Package: luainputenc 2010/02/07 v0.96 inputenc package for LuaTeX}
+\Msg{* Package: luainputenc 2010/05/10 v0.97 inputenc package for LuaTeX}
 \Msg{************************************************************************}
 
 \keepsilent
@@ -126,7 +126,7 @@ and the derived files
 %<package>
 %<package>\NeedsTeXFormat{LaTeX2e}
 %<package>\ProvidesPackage{luainputenc}
-%<package>  [2010/02/07 v0.96 inputenc package for LuaTeX]
+%<package>  [2010/05/10 v0.97 inputenc package for LuaTeX]
 %<package>
 % \fi
 %<*driver>
@@ -161,7 +161,7 @@ and the derived files
 % \GetFileInfo{luainputenc.sty}
 %
 % \title{The \textsf{luainputenc} package}
-% \date{2010/02/07 v0.96}
+% \date{2010/05/10 v0.97}
 % \author{Elie Roux \\ \texttt{elie.roux@telecom-bretagne.eu}}
 %
 % \maketitle
@@ -776,7 +776,7 @@ and the derived files
 
 
 \ProvidesFile{lutf8.def}
-   [2010/02/07 v0.96 UTF-8 support for luainputenc]
+   [2010/05/10 v0.97 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -892,7 +892,7 @@ and the derived files
 %    \begin{macrocode}
 
 \ProvidesFile{lutf8x.def}
-   [2010/02/07 v0.96 UTF-8 support for luainputenc]
+   [2010/05/10 v0.97 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -1034,12 +1034,12 @@ and the derived files
 %
 %    \begin{macrocode}
 
-luainputenc = { }
+module('luainputenc', package.seeall)
 
 luainputenc.module = {
     name          = "luainputenc",
-    version       =  0.96,
-    date          = "2010/02/07",
+    version       =  0.97,
+    date          = "2010/05/10",
     description   = "Lua simple inputenc package.",
     author        = "Elie Roux",
     copyright     = "Elie Roux",
@@ -1137,8 +1137,8 @@ end
 if tex.luatexversion > 42 then
 
     function luainputenc.register_callbacks()
-        callback.add('process_output_buffer', luainputenc.fake_utf_write, 'luainputenc.fake_utf_write')
-        callback.add('process_input_buffer', luainputenc.fake_utf_read, 'luainputenc.fake_utf_read')
+        luatexbase.add_to_callback('process_output_buffer', luainputenc.fake_utf_write, 'luainputenc.fake_utf_write')
+        luatexbase.add_to_callback('process_input_buffer', luainputenc.fake_utf_read, 'luainputenc.fake_utf_read')
     end
     
 else
@@ -1174,7 +1174,7 @@ else
     end
 
     function luainputenc.start()
-        callback.add('process_input_buffer', luainputenc.fake_utf_read,
+        luatexbase.add_to_callback('process_input_buffer', luainputenc.fake_utf_read,
             'luainputenc.fake_utf_read')
         luainputenc.state = started
         if luainputenc.callback_registered == 0 then
@@ -1183,7 +1183,7 @@ else
     end
     
     function luainputenc.stop()
-        callback.remove('process_input_buffer', 'luainputenc.fake_utf_read')
+        luatexbase.remove_from_callback('process_input_buffer', 'luainputenc.fake_utf_read')
         luainputenc.state = stopped
         return
     end
@@ -1331,9 +1331,9 @@ else
 
     function luainputenc.register_callback()
         if luainputenc.callback_registered == 0 then
-            callback.add('pre_read_file', luainputenc.pre_read_file,
+            luatexbase.add_to_callback('pre_read_file', luainputenc.pre_read_file,
                 'luainputenc.pre_read_file')
-            callback.add('file_close', luainputenc.close, 'luainputenc.close')
+            luatexbase.add_to_callback('file_close', luainputenc.close, 'luainputenc.close')
             luainputenc.callback_registered = 1
         end
     end
