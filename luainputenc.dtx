@@ -1,6 +1,8 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2009 by Elie Roux <elie.roux@telecom-bretagne.eu>
+% Written in 2009, 2010 by Manuel Pégourié-Gonnard and Élie Roux.
+%     <mpg@elzevir.fr>
+%     <elie.roux@telecom-bretagne.eu>
 %
 % This work is under the CC0 license. As an exception, the files 
 % luainputenc.sty, lutf8.def and lutf8x.def have more restrictions. 
@@ -23,11 +25,6 @@
 % Documentation: 
 %    pdflatex luainputenc.dtx
 %
-%    The class ltxdoc loads the configuration file ltxdoc.cfg
-%    if available. Here you can specify further options, e.g.
-%    use A4 as paper format:
-%       \PassOptionsToClass{a4paper}{article}
-%
 %<*ignore>
 \begingroup
   \def\x{LaTeX2e}%
@@ -39,10 +36,6 @@
 %</ignore>
 %<*install>
 \input docstrip.tex
-\Msg{************************************************************************}
-\Msg{* Installation}
-\Msg{* Package: luainputenc 2010/05/10 v0.97 inputenc package for LuaTeX}
-\Msg{************************************************************************}
 
 \keepsilent
 \askforoverwritefalse
@@ -52,7 +45,7 @@
 \preamble
 This is a generated file.
 
-Copyright (C) 2009 by Elie Roux <elie.roux@telecom-bretagne.eu>
+Written in 2009, 2010 by Manuel Pegourie-Gonnard and Elie Roux.
 
 This work is under the CC0 license. As an exception, the files 
 luainputenc.sty, lutf8.def and lutf8x.def have more restrictions. 
@@ -80,9 +73,6 @@ and the derived files
   \file{lutf8.def}{\from{luainputenc.dtx}{def}}%
   \file{lutf8x.def}{\from{luainputenc.dtx}{defx}}%
 }
-
-% The following hacks are to generate a lua file with lua comments starting by
-% -- instead of %%
 
 \def\MetaPrefix{-- }
 
@@ -126,14 +116,25 @@ and the derived files
 %<package>
 %<package>\NeedsTeXFormat{LaTeX2e}
 %<package>\ProvidesPackage{luainputenc}
-%<package>  [2010/05/10 v0.97 inputenc package for LuaTeX]
+%<package>  [2010/10/05 v0.971 inputenc package for LuaTeX]
 %<package>
 % \fi
 %<*driver>
 \documentclass{ltxdoc}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage{metalogo}
 \usepackage[lmargin=5cm, textwidth=14cm]{geometry}
-\EnableCrossrefs
-\CodelineIndex
+\usepackage[bookmarks=true, colorlinks=true]{hyperref}
+\usepackage{bookmark}
+\usepackage[english]{babel}
+\providecommand\eTeX{e\TeX}
+\newcommand\pf{\textsf}
+\newcommand\file{\texorpdfstring{\nolinkurl}{}}
+\newcommand\code{\texttt}
+\newcommand*\email[1]{\href{mailto:#1}{#1}}
 \begin{document}
   \DocInput{luainputenc.dtx}%
 \end{document}
@@ -158,11 +159,11 @@ and the derived files
 %   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %   Right brace   \}     Tilde         \~}
 %
-% \GetFileInfo{luainputenc.sty}
-%
 % \title{The \textsf{luainputenc} package}
-% \date{2010/05/10 v0.97}
-% \author{Elie Roux \\ \texttt{elie.roux@telecom-bretagne.eu}}
+% \date{2010/10/05 v0.971}
+% \author{%
+%   Manuel P\'egouri\'e-Gonnard \email{mpg@elzevir.fr} \\
+%   \'Elie Roux \email{elie.roux@telecom-bretagne.eu}}
 %
 % \maketitle
 %
@@ -174,46 +175,47 @@ and the derived files
 %
 % \tableofcontents
 %
-% \section{Overview}
+% \section{Overview: When (not) to use this package}
+%
+% This package is strictly meant for compatibility. It is usefull in the two
+% (overlapping) following cases:
+% \begin{enumerate}
+% \item You source is not encoded in UTF-8 and you don't want to reencode it
+% for some reason.
+% \item Your document is using legacy 8-bit fonts (with \pf{fontenc}), as
+% opposed to modern Unicode fonts (most probably with \pf{fontspec} or
+% \pf{luaotfload} and \pf{fontenc} with option \code{EU2}).
+% \end{enumerate}
+% Surprisingly enough, in the second case \pf{luainputenc} is needed, due to
+% the way \LaTeX\ implements font encodings.
 %
 % From the user point of view, adapting an old document for \LuaTeX\ is really
 % easy: replacing \pf{inputenc} by \pf{luainputenc} in the preamble is
 % enough.
 %
-% \textbf{Warning:} the current version of \pf{luainputenc} automatically
-% loads the \LuaTeX tra packages. It won't necessarily be the case in the
-% future. So if you use some functions of \LuaTeX tra (like
-% \verb+\newluaattribute+), it is advised to also explicitely use
-% \pf{luatextra}. A typical part of \LaTeX\ preamble for \LuaTeX\ will be
-% for example:
-% 
-% \begin{verbatim}
-% \usepackage[utf8]{luainputenc}
-% \usepackage{luatextra}
-% \end{verbatim}
-% 
-% Another important thing to know, for \LaTeX , is that loading
-% \pf{luainputenc} is necessary if you use old fonts. One could believe that
-% \LuaTeX\ reading UTF-8 natively, \pf{inputenc} is not necessary anymore.
-% It's not the case! The exception to this is the case where you only use OTF
-% fonts. But you can't simply suppress \pf{inputenc} for your old documents.
-% 
 % Note that \pf{luainputenc} automatically loads \pf{inputenc} if called
 % with an old engine, so you will still be able to compile your documents with
 % pdf\TeX\ without changing them.
-% 
-% A new font encoding has been added: \code{EU2}. It is meant to be used with
-% OTF fonts. It is very minimal and just defines a default font (lmodern). Use
-% it if you use only OTF fonts. To use it simply call \pf{fontenc} with the
-% option \code{EU2}.
-% 
-% EU2 encoding is special as it needs non-ASCII characters to be non-active
-% (unlike other font encodings), so you cannot mix old encodings and EU2. If you
-% want to use both old fonts and OTF fonts in your document, the way to do so is
-% by using a new option of \pf{luainputenc}: \code{lutf8x}. This option
-% overrides \LaTeX 's mechanism to change the font encoding and activates or
-% unactivates non-ASCII characters. If you use this option, you will be able to
-% change the encoding, for example:
+%
+% \pk{luainputenc} has several modes of operation. By default, is basically
+% turns \LuaTeX\ into an 8-bit engine, which means you loose half of the
+% benefits from using \LuaTeX. If you are using only Unicode fonts, you can
+% activate a nicer mode of operation using the \code{unactivate} package
+% option. That way, \LuaTeX\ remains a true Unicode engine.
+%
+% Unicode fonts with \LuaTeX\ are handled using a new encoding: \code{EU2}. It
+% is used internally by the \pf{fontspec} package when loading Unicode fonts.
+% This encoding is special as it needs non-ASCII characters to be non-active
+% (unlike other font encodings), so you cannot mix old encodings and EU2. If
+% you're using only Unicode fonts, this isn't a problem: use the
+% \code{unactivate} package option mentioned in the previous paragraph.
+%
+% But if you
+% want to use both 8-bit fonts and Unicode fonts in your document, you need to
+% use another package option, \code{lutf8x}. This option
+% overrides \LaTeX's mechanism for font encoding switching, so that it
+% (un)activates non-ASCII characters on-the-fly. With this options, you'll be
+% able change the font encoding from/to \code{EU2}, for example:
 % 
 % \begin{verbatim}
 % abc
@@ -224,12 +226,6 @@ and the derived files
 % }
 % abc
 % \end{verbatim}
-% 
-% Another new option has been added to \pf{luainputenc}:
-% \code{unactivate}. With this option, non-ASCII characters won't be
-% activated, so you will be able to use only OTF fonts. Typically you can use
-% this options with the \code{EU2} \pf{fontenc} option.
-% 
 %
 % \section{Documentation}
 %
@@ -265,15 +261,16 @@ and the derived files
 % can keep the default behaviour, which will be compatible with pdfTeX in 
 % most cases, but you can consider the machinery obsolete.
 %
-% For these old versions, \textsf{luainputenc} only changes the input behaviour, it does not change
-% the ouput behaviour (when files are written for example). The consequence is
-% that files will still be written by Lua\TeX\ in UTF-8 (fake UTF-8 in this
-% case), even if the asked input encoding is a 8-bit encoding. In most cases
-% it's not a problem, as most files will be written in LICR, meaning ASCII,
-% which is both 8-bit and UTF-8. The problem comes when characters with a
-% number $>$ 128 are written in a 8-bit encoding. This may happen if you use
-% |\protect| in a section for example. In these cases, Lua\TeX\ will write
-% fake UTF-8, and try to read 8-bit encoding, so it will get confused.
+% For these old versions, \textsf{luainputenc} only changes the input
+% behaviour, it does not change the ouput behaviour (when files are written
+% for example). The consequence is that files will still be written by
+% Lua\TeX\ in UTF-8 (fake UTF-8 in this case), even if the asked input
+% encoding is a 8-bit encoding. In most cases it's not a problem, as most
+% files will be written in LICR, meaning ASCII, which is both 8-bit and UTF-8.
+% The problem comes when characters with a number $>$ 128 are written in a
+% 8-bit encoding. This may happen if you use |\protect| in a section for
+% example. In these cases, Lua\TeX\ will write fake UTF-8, and try to read
+% 8-bit encoding, so it will get confused.
 %
 % The proposed solution is to unactivate the input conversion when we read
 % certain files or extentions. This package should work with no change for
