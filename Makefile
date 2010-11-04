@@ -33,8 +33,7 @@ TDS_ZIP = $(NAME).tds.zip
 ZIPS = $(CTAN_ZIP) $(TDS_ZIP)
 
 DO_TEX = tex --interaction=batchmode $< >/dev/null
-DO_PDFLATEX = pdflatex --interaction=batchmode $< >/dev/null
-DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
+DO_LATEXMK = latexmk -silent $< >/dev/null
 
 all: $(GENERATED)
 doc: $(COMPILED)
@@ -44,11 +43,8 @@ tds: $(TDS_ZIP)
 world: all ctan
 .PHONY: all doc unpack ctan tds world check
 
-$(COMPILED): $(DTX)
-	$(DO_PDFLATEX)
-	$(DO_MAKEINDEX)
-	$(DO_PDFLATEX)
-	$(DO_PDFLATEX)
+%.pdf: %.dtx
+	$(DO_LATEXMK)
 
 $(UNPACKED): $(DTX)
 	$(DO_TEX)
@@ -88,8 +84,10 @@ manifest:
 	@echo "Derived files:"
 	@for f in $(GENERATED); do echo $$f; done
 
-clean: 
-	@$(RM) -- *.log *.aux *.toc *.idx *.ind *.ilg
+clean:
+	@latexmk -silent -c *.dtx >/dev/null
+	@# for tex-only runs:
+	@$(RM) -- *.log
 
 mrproper: clean
 	@$(RM) -- $(GENERATED) $(ZIPS) test.*
