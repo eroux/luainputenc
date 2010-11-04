@@ -13,8 +13,8 @@ GENERATED = $(COMPILED) $(UNPACKED)
 
 # Files grouped by installation location
 UNPACKED_DOC = inputenc.sty.diff
-RUNFILES = $(filter-out $(UNPACKED_DOC), $(UNPACKED))
-DOCFILES = $(DOC) $(UNPACKED_DOC) README NEWS
+RUNFILES = $(filter-out $(UNPACKED_DOC) test.tex, $(UNPACKED))
+DOCFILES = $(DOC) $(UNPACKED_DOC) test.tex README NEWS
 SRCFILES = $(DTX) Makefile
 
 # The following definitions should be equivalent
@@ -39,9 +39,10 @@ DO_MAKEINDEX = makeindex -s gind.ist $(subst .dtx,,$<) >/dev/null 2>&1
 all: $(GENERATED)
 doc: $(COMPILED)
 unpack: $(UNPACKED)
-ctan: $(CTAN_ZIP)
+ctan: check $(CTAN_ZIP)
 tds: $(TDS_ZIP)
 world: all ctan
+.PHONY: all doc unpack ctan tds world check
 
 $(COMPILED): $(DTX)
 	$(DO_PDFLATEX)
@@ -51,6 +52,9 @@ $(COMPILED): $(DTX)
 
 $(UNPACKED): $(DTX)
 	$(DO_TEX)
+
+check: $(UNPACKED)
+	lualatex --interaction=batchmode test.tex >/dev/null
 
 $(CTAN_ZIP): $(SOURCE) $(COMPILED) $(TDS_ZIP)
 	@echo "Making $@ for CTAN upload."
@@ -88,5 +92,5 @@ clean:
 	@$(RM) -- *.log *.aux *.toc *.idx *.ind *.ilg
 
 mrproper: clean
-	@$(RM) -- $(GENERATED) $(ZIPS)
+	@$(RM) -- $(GENERATED) $(ZIPS) test.*
 

@@ -74,6 +74,11 @@ and the derived files
   \file{lutf8x.def}{\from{luainputenc.dtx}{defx}}%
 }
 
+\generate{%
+  \usedir{doc/luatex/luainputenc}%
+  \file{test.tex}{\from{luainputenc.dtx}{test}}%
+}
+
 \def\MetaPrefix{-- }
 
 \def\luapostamble{%
@@ -1437,6 +1442,17 @@ end
 % \iffalse
 %</lua>
 % \fi
+%
+%    \section{Test file}
+%
+%    Very minimal, just check that the package correctly loads.
+%
+%    \begin{macrocode}
+%<*test>
+\RequirePackage{luainputenc}
+\stop
+%</test>
+%    \end{macrocode}
 %
 % \Finale
 \endinput
