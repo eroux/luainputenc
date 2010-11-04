@@ -2,20 +2,14 @@
 
 
 luainputenc is an adaptation of inputenc for LuaTeX, as the old inputenc does
-not work (at all) with the LuaTeX engine.
-
-You need luatextra to use this package.
-
-Please note that you have to use this package even for UTF-8 encoded sources.
-This is needed for compatibility with non-Unicode fonts and may be worked around
-in the future.
+not work (at all) with the LuaTeX engine. It is used only for compatibility
+with old documents. New documents should be encoded in UTF-8 and use Unicode
+fonts (eg with a recent verion of the fontspec package).
 
 This package automatically calls the old inputenc when running with pdfTeX, and
 xetex-inputenc when running XeTeX, so you can safely use it with all your
 documents.
 
-Please see luatextra-reference.pdf for an introduction.
-                   
 This package is developed on <http://github.com/mpg/luainputenc>, see the 'NEWS'
 file for version history.
 
@@ -35,8 +29,6 @@ distribution's manual for details.
 3. a. Grab the sources from CTAN or github.
    b. Run 'make install TEXMFROOT=/path/to/texmf'.
    c. See 2c.
-
-4. Try to figure it out by looking at the Makefile and comments in the sources.
 
 
 Manifest
@@ -81,6 +73,6 @@ For further details about their license, please see the comments in these files.
 The other derived files are
   luainputenc.lua
   inputenc.sty.diff
-  
+
 These files are under the CC0 license only.
 
