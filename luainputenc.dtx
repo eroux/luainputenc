@@ -431,22 +431,22 @@ and the derived files
 \RequirePackage{ifxetex}
 
 \ifxetex
-  \RequirePackage{xetex-inputenc}
   \DeclareOption{unactivate}{\PassOptionsToPackage{utf8}{xetex-inputenc}}
   \DeclareOption{lutf8}{\PassOptionsToPackage{utf8}{xetex-inputenc}}
   \DeclareOption{lutf8x}{\PassOptionsToPackage{utf8}{xetex-inputenc}}
   \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{xetex-inputenc}}
   \ProcessOptions*
+  \RequirePackage{xetex-inputenc}
   \expandafter\endinput
 \fi
 
 \ifluatex\else
-  \RequirePackage{inputenc}
   \DeclareOption{unactivate}{\PassOptionsToPackage{utf8}{inputenc}}
   \DeclareOption{lutf8}{\PassOptionsToPackage{utf8}{inputenc}}
   \DeclareOption{lutf8x}{\PassOptionsToPackage{utf8}{inputenc}}
   \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{inputenc}}
   \ProcessOptions*
+  \RequirePackage{inputenc}
   \expandafter\endinput
 \fi
 

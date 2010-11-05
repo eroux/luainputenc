@@ -3,6 +3,7 @@
 2010/10/05, luainputenc v0.971:
     * improved documentation
     * no longer loading luatextra
+    * fix bug under pdftex/xetex, thanks to Ulrike
 
 2010/05/11, luainputenc v0.97:
     * adapting to the new luatexbase system
