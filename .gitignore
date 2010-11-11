@@ -1,9 +1,6 @@
 # Git ignore file for luainputenc.
 # See target 'mrproper' in Makefile.
-eu2enc.def
-eu2lmr.fd
 inputenc.sty.diff
-luainputenc.drv
 luainputenc.lua
 luainputenc.pdf
 luainputenc.sty
@@ -11,3 +8,4 @@ lutf8.def
 lutf8x.def
 luainputenc.zip
 luainputenc.tds.zip
+test*
