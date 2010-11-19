@@ -1,9 +1,12 @@
                      History of the luainputenc package
 
-2010/10/10 v0.972
+2010/11/19 v0.973
+    * fix stupid bug introduced in 0.971, spotted by Benoît Rivet
+
+2010/11/10 v0.972
     * adapt to luatexbase 0.3
 
-2010/10/05 v0.971
+2010/11/05 v0.971
     * improved documentation
     * no longer loading luatextra
     * fix bug under pdftex/xetex, thanks to Ulrike
