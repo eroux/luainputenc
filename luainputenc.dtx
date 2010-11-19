@@ -527,7 +527,7 @@ and the derived files
               by input encoding change to `#1'\MessageBreak}%
   \fi
   \the\inpenc@posthook
-  \luadirect{luainputenc.set_option([[#1]])}
+  \luatexbase@directlua{luainputenc.set_option([[#1]])}
 }
 \newtoks\inpenc@prehook
 \newtoks\inpenc@posthook
@@ -584,7 +584,7 @@ and the derived files
 
 \DeclareOption{unactivate}{%
   \edef\inputencodingname{unactivate}%
-  \luadirect{luainputenc.set_option([[unactivate]])}
+  \luatexbase@directlua{luainputenc.set_option([[unactivate]])}
 }
 
 %    \end{macrocode}
@@ -612,7 +612,7 @@ and the derived files
 \ifnum\luatexversion>42
 
     \newcommand*{\lIE@activate}[0]{%
-      \luadirect{luainputenc.register_callbacks()}%
+      \luatexbase@directlua{luainputenc.register_callbacks()}%
     }
 
 \else
@@ -629,13 +629,13 @@ and the derived files
 
 \newcommand*\lIE@setstarted[0]{%
   \ifnum\lIE@activated=1 %
-    \luadirect{luainputenc.setstarted()}%
+    \luatexbase@directlua{luainputenc.setstarted()}%
   \fi %
 }
 
 \newcommand*\lIE@setstopped[0]{%
   \ifnum\lIE@activated=1 %
-    \luadirect{luainputenc.setstopped()}%
+    \luatexbase@directlua{luainputenc.setstopped()}%
   \fi %
 }
 
@@ -662,7 +662,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetUtfFile[1]{%
-  \luadirect{luainputenc.set_unicode_file([[#1]])}%
+  \luatexbase@directlua{luainputenc.set_unicode_file([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -678,7 +678,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetNonUtfFile[1]{%
-  \luadirect{luainputenc.set_non_unicode_file([[#1]])}%
+  \luatexbase@directlua{luainputenc.set_non_unicode_file([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -692,7 +692,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@UnsetFile[1]{%
-  \luadirect{luainputenc.unset_file([[#1]])}%
+  \luatexbase@directlua{luainputenc.unset_file([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -711,7 +711,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetUtfExt[1]{%
-  \luadirect{luainputenc.set_unicode_extention([[#1]])}%
+  \luatexbase@directlua{luainputenc.set_unicode_extention([[#1]])}%
 }
 
 %    \end{macrocode}
@@ -725,7 +725,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetNonUtfExt[1]{
-  \luadirect{luainputenc.set_non_unicode_extention([[#1]])}
+  \luatexbase@directlua{luainputenc.set_non_unicode_extention([[#1]])}
 }
 
 %    \end{macrocode}
@@ -971,7 +971,7 @@ and the derived files
 
 \gdef\DeclareUnicodeCharacter#1#2{%
  \@tempcnta"#1%
- \luadirect{luainputenc.declare_character('\the\@tempcnta')}%
+ \luatexbase@directlua{luainputenc.declare_character('\the\@tempcnta')}%
  \catcode\@tempcnta\active %
  \DeclareInputText{\the\@tempcnta}{#2}%
 }
@@ -997,15 +997,15 @@ and the derived files
 %    \begin{macrocode}
 
 \def\lIE@ActivateUnicodeCatcodes{%
-\luadirect{luainputenc.activate_characters()}%
+\luatexbase@directlua{luainputenc.activate_characters()}%
 }
 
 \def\lIE@DesactivateUnicodeCatcodes{%
-\luadirect{luainputenc.desactivate_characters()}%
+\luatexbase@directlua{luainputenc.desactivate_characters()}%
 }
 
 \def\lIE@CharactersActivated{%
-\luadirect{luainputenc.force_characters_activated()}
+\luatexbase@directlua{luainputenc.force_characters_activated()}
 }
 
 \edef\lIE@EU{EU2}
