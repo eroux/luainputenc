@@ -1,4 +1,4 @@
-% \iffalse meta-comment
+% \iffalse meta-comment -- by the way, this file contains UTF-8
 %
 % Written in 2009, 2010 by Manuel Pégourié-Gonnard and Élie Roux.
 %     <mpg@elzevir.fr>
@@ -1445,12 +1445,16 @@ end
 %
 %    \section{Test file}
 %
-%    Very minimal, just check that the package correctly loads.
+%    Very minimal, just check that the package correctly loads with an option
+%    and doesn't crash on a one-line plain ASCII document body\dots
 %
 %    \begin{macrocode}
 %<*test>
-\RequirePackage{luainputenc}
-\stop
+\documentclass{article}
+\usepackage[utf8]{luainputenc}
+\begin{document}
+bla
+\end{document}
 %</test>
 %    \end{macrocode}
 %
