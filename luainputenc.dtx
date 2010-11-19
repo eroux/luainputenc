@@ -453,11 +453,13 @@ and the derived files
 %    \end{macrocode}
 %
 %    Here we know we are called with Lua\TeX . We first require
-%    \textsf{luatextra}, then we load the \texttt{lua} file.
+%    \textsf{luatextra} and ensure a few primitives, then we load the
+%    \texttt{lua} file.
 %
 %    \begin{macrocode}
 
 \RequirePackage{luatexbase}
+\luatexbase@ensure@primitive{luaescapestring}
 
 \RequireLuaModule{luainputenc}
 
@@ -527,7 +529,7 @@ and the derived files
               by input encoding change to `#1'\MessageBreak}%
   \fi
   \the\inpenc@posthook
-  \luatexbase@directlua{luainputenc.set_option([[#1]])}
+  \luatexbase@directlua{luainputenc.set_option("\luatexluaescapestring{#1}")}
 }
 \newtoks\inpenc@prehook
 \newtoks\inpenc@posthook
@@ -662,7 +664,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetUtfFile[1]{%
-  \luatexbase@directlua{luainputenc.set_unicode_file([[#1]])}%
+  \luatexbase@directlua{luainputenc.set_unicode_file("\luatexluaescapestring{#1}")}%
 }
 
 %    \end{macrocode}
@@ -678,7 +680,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetNonUtfFile[1]{%
-  \luatexbase@directlua{luainputenc.set_non_unicode_file([[#1]])}%
+  \luatexbase@directlua{luainputenc.set_non_unicode_file("\luatexluaescapestring{#1}")}%
 }
 
 %    \end{macrocode}
@@ -692,7 +694,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@UnsetFile[1]{%
-  \luatexbase@directlua{luainputenc.unset_file([[#1]])}%
+  \luatexbase@directlua{luainputenc.unset_file("\luatexluaescapestring{#1}")}%
 }
 
 %    \end{macrocode}
@@ -711,7 +713,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetUtfExt[1]{%
-  \luatexbase@directlua{luainputenc.set_unicode_extention([[#1]])}%
+  \luatexbase@directlua{luainputenc.set_unicode_extention("\luatexluaescapestring{#1}")}%
 }
 
 %    \end{macrocode}
@@ -725,7 +727,7 @@ and the derived files
 %    \begin{macrocode}
 
 \newcommand*\lIE@SetNonUtfExt[1]{
-  \luatexbase@directlua{luainputenc.set_non_unicode_extention([[#1]])}
+  \luatexbase@directlua{luainputenc.set_non_unicode_extention("\luatexluaescapestring{#1}")}
 }
 
 %    \end{macrocode}
