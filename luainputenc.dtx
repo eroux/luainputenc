@@ -121,7 +121,7 @@ and the derived files
 %<package>
 %<package>\NeedsTeXFormat{LaTeX2e}
 %<package>\ProvidesPackage{luainputenc}
-%<package>  [2010/11/19 v0.973 inputenc package for LuaTeX]
+%<package>  [2013/04/23 v0.98 inputenc package for LuaTeX]
 %<package>
 % \fi
 %<*driver>
@@ -165,7 +165,7 @@ and the derived files
 %   Right brace   \}     Tilde         \~}
 %
 % \title{The \textsf{luainputenc} package}
-% \date{2010/11/19 v0.973}
+% \date{2013/04/23 v0.98}
 % \author{%
 %   Manuel P\'egouri\'e-Gonnard \email{mpg@elzevir.fr} \\
 %   \'Elie Roux \email{elie.roux@telecom-bretagne.eu}}
@@ -838,7 +838,7 @@ and the derived files
 
 
 \ProvidesFile{lutf8.def}
-   [2010/05/10 v0.97 UTF-8 support for luainputenc]
+   [2013/04/23 v0.98 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -954,7 +954,7 @@ and the derived files
 %    \begin{macrocode}
 
 \ProvidesFile{lutf8x.def}
-   [2010/05/10 v0.97 UTF-8 support for luainputenc]
+   [2013/04/23 v0.98 UTF-8 support for luainputenc]
 
 \makeatletter
 \catcode`\ \saved@space@catcode
@@ -1098,10 +1098,12 @@ and the derived files
 
 module('luainputenc', package.seeall)
 
+require('unicode')
+
 luainputenc.module = {
     name          = "luainputenc",
-    version       =  0.97,
-    date          = "2010/05/10",
+    version       =  0.98,
+    date          = "2013/04/23",
     description   = "Lua simple inputenc package.",
     author        = "Elie Roux",
     copyright     = "Elie Roux",

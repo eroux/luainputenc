@@ -1,5 +1,9 @@
                      History of the luainputenc package
 
+2013/04/23 v0.98
+    * the unicode lib must now be required, as it will not be available by
+      default in a future LuaTeX (see 0.74 announcement).
+
 2010/11/19 v0.973
     * fix stupid bug introduced in 0.971, spotted by Benoît Rivet
 
